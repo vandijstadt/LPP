@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
+// Table des variables
+// https://docs.google.com/spreadsheets/d/100_8y61qgKU3HSVB_qyyqeg9YfAm5iXL-RIHa2iqSQM/edit?usp=sharing
 
 // Creation des structure
 typedef struct Client
@@ -11,9 +15,20 @@ typedef struct Client
     int nbEnfant;
     char dateDebut[11];
     char dateFin[11];
+    int idEmplacement;
     struct Client *suivant;
 } Client;
-
+typedef struct Emplacement
+{
+    int num;
+    char type[9];
+    int superficie;
+    int nbPersonneMax;
+    bool electricite;
+    bool eau;
+    bool wifi;
+    struct Emplacement *suivant;
+} Emplacement;
 void main()
 {
     // Declaration
@@ -22,8 +37,9 @@ void main()
     // Initalisation
 
     // Declaration de methode
-    void affichageClient(Client **);
-    void ajoutClient(Client **, char[], char[], int, int, char[], char[]);
+    void affichageClient(Client**);
+    void ajoutClient(Client**, char[], char[], int, int, char[], char[]);
+    void supprimerClient(Client**,int);
 
     // Netoyage du terminal
     // system("cls");
@@ -33,14 +49,17 @@ void main()
     ajoutClient(&deb, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022");
     ajoutClient(&deb, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022");
     ajoutClient(&deb, "xxxxxxxxxxxxxxxxxxxxxxxxxxx", "Nicolas", 4, 0, "25/11/2022", "26/11/2022");
-
+    supprimerClient(&deb,1);
     // Affichage du client
     affichageClient(&deb);
-    
 }
 
-//------- A finir (pour ajouter pas pour creer)
+//
+//    Clients
+//
+
 // Gestion des Client
+// Ajouts d'un client
 void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant, char dateDebut[], char dateFin[])
 {
     // Declaration
@@ -64,7 +83,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         strcpy((*courant).dateFin, dateFin);
         (*courant).suivant = NULL;
     }
-    
+
     else
     {
         // on alloue de la memoire pour le client
@@ -82,19 +101,46 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
 
         // Recherche ou mettre
         courant = *deb;
-        while (0==0)
+        while (0 == 0)
         {
-        	if((*courant).suivant==NULL){
-        		break;
-			}
+            if ((*courant).suivant == NULL)
+            {
+                break;
+            }
             courant = (*courant).suivant;
-        } 
+        }
         (*courant).suivant = temp;
     }
 }
-// void supprimerClient(Client **deb)
-// {
-// }
+void supprimerClient(Client **deb, int id)
+{
+    // Declaration
+    Client *courant;
+    int i;
+
+    // initialisation
+    courant=*deb;
+    id=id-2;
+
+    for(i=-1;i<id;i++)
+    {
+        if ((*courant).suivant == NULL)
+        {
+            break;
+        }
+        courant = (*courant).suivant;
+        printf("TEST !\n");
+    }
+    if((*courant).suivant!=NULL)
+        (*courant).suivant = ((*courant).suivant)->suivant;
+    else
+        (*courant).suivant = NULL;
+}
+
+// pour encoder un emplacment
+void reserver(int id, int idEmplacement){
+    
+}
 // Affichage des Client
 void affichageClient(Client **deb)
 {
@@ -103,19 +149,19 @@ void affichageClient(Client **deb)
 
     courant = *deb;
 
-        printf(" N  |  Nom                  | Prenom               | Nb de personne | Nb d'enfant | Date de debut | Date de fin \n");
-        printf("----+-----------------------+----------------------+----------------+-------------+---------------+-------------\n");
-        while (courant != NULL)
-        {
-            printf("%03d | %-21s | %-21s | %2d             | %2d          | %10s | %10s \n",
-                   i++, (*courant).nom,(*courant).prenom,(*courant).nbPersonne,(*courant).nbEnfant,
-    			   (*courant).dateDebut, (*courant).dateFin);
-            courant = (*courant).suivant;
-        }
-//    while (courant != NULL)
-//    {
-//        printf("%03d | %7x | %-20s |%7x\n",
-//               i++, courant, (*courant).nom, (*courant).suivant);
-//        courant = (*courant).suivant;
-//    }
+    printf(" N  |  Nom                  | Prenom               | Nb de personne | Nb d'enfant | Date de debut | Date de fin \n");
+    printf("----+-----------------------+----------------------+----------------+-------------+---------------+-------------\n");
+    while (courant != NULL)
+    {
+        printf("%03d | %-21s | %-21s | %2d             | %2d         |  %10s   | %10s \n",
+               i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
+               (*courant).dateDebut, (*courant).dateFin);
+        courant = (*courant).suivant;
+    }
+    //    while (courant != NULL)
+    //    {
+    //        printf("%03d | %7x | %-20s |%7x\n",
+    //               i++, courant, (*courant).nom, (*courant).suivant);
+    //        courant = (*courant).suivant;
+    //    }
 }
