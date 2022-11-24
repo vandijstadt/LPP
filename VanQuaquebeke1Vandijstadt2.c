@@ -21,7 +21,6 @@ void main()
 
     // Initalisation
 
-
     // Declaration de methode
     void affichageClient(Client **);
     void ajoutClient(Client **, char[], char[], int, int, char[], char[]);
@@ -32,7 +31,7 @@ void main()
     // Creation du premier Client
     deb = NULL;
     ajoutClient(&deb, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022");
-    ajoutClient(&deb, "Vandijstadt", "Nicolas", 4, 0, "24/11/2022", "27/11/2022");
+    ajoutClient(&deb, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022");
 
     // Affichage du client
     affichageClient(&deb);
@@ -42,18 +41,18 @@ void main()
 // Gestion des Client
 void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant, char dateDebut[], char dateFin[])
 {
-	// Declaration
-    Client *courant, *intercale;
-    
+    // Declaration
+    Client *courant, *temp;
+
     // On verifie si il exist deja un element dans la liste
     if (*deb == NULL)
     {
-    	// on alloue de la memoire pour le client
+        // on alloue de la memoire pour le client
         courant = malloc(sizeof(Client));
-        
+
         // On declarre que c'est le premier element
-        *deb=courant;
-        
+        *deb = courant;
+
         // Assigne les valeurs
         strcpy((*courant).nom, nom);
         strcpy((*courant).prenom, prenom);
@@ -63,27 +62,31 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         strcpy((*courant).dateFin, dateFin);
         (*courant).suivant = NULL;
     }
-    else{
-    	
-    	// on alloue de la memoire pour le client
-        intercale = malloc(sizeof(Client));
-        
+    else
+    {
+        // on alloue de la memoire pour le client
+        temp = malloc(sizeof(Client));
+
         // Assigne les valeurs
-        strcpy((*intercale).nom, nom);
-        strcpy((*intercale).prenom, prenom);
-        (*intercale).nbPersonne = nbPersonne;
-        (*intercale).nbEnfant = nbEnfant;
-        strcpy((*intercale).dateDebut, dateDebut);
-        strcpy((*intercale).dateFin, dateFin);
-        (*intercale).suivant = NULL;
-        
+        strcpy((*temp).nom, nom);
+        strcpy((*temp).prenom, prenom);
+        (*temp).nbPersonne = nbPersonne;
+        (*temp).nbEnfant = nbEnfant;
+        strcpy((*temp).dateDebut, dateDebut);
+        strcpy((*temp).dateFin, dateFin);
+        (*temp).suivant = NULL;
+
         // Recherche ou mettre
-        do{
-        	
-        	courant = (*courant).suivant;
-		}while (courant != NULL);
-        courant=intercale;
-	}
+        courant = *deb;
+        while (0==0)
+        {
+        	if((*courant).suivant==NULL){
+        		break;
+			}
+            courant = (*courant).suivant;
+        } 
+        (*courant).suivant = temp;
+    }
 }
 // void supprimerClient(Client **deb)
 // {
@@ -92,13 +95,23 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
 void affichageClient(Client **deb)
 {
     Client *courant;
-    int i;
+    int i = 0;
 
     courant = *deb;
-    while (courant != NULL)
-    {
-        printf("*** %d   %x %-20s %d %x ***\n",
-               i, courant, (*courant).nom, (*courant).suivant);
-        courant = (*courant).suivant;
-    }
+
+        printf(" N  |  Nom                  | Prenom               | Nb de personne | Nb d'enfant | Date de debut | Date de fin \n");
+        printf("----+-----------------------+----------------------+----------------+-------------+---------------+-------------\n");
+        while (courant != NULL)
+        {
+            printf("%03d | %-20s | %-20s | %2d             | %2d          | %10s | %10s \n",
+                   i++, (*courant).nom,(*courant).prenom,(*courant).nbPersonne,(*courant).nbEnfant,
+    			   (*courant).dateDebut, (*courant).dateFin);
+            courant = (*courant).suivant;
+        }
+//    while (courant != NULL)
+//    {
+//        printf("%03d | %7x | %-20s |%7x\n",
+//               i++, courant, (*courant).nom, (*courant).suivant);
+//        courant = (*courant).suivant;
+//    }
 }
