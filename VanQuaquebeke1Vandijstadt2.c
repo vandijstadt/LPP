@@ -32,14 +32,14 @@ typedef struct Emplacement
 void main()
 {
     // Declaration
-    Client *debC, *courant, *suivant, *tempo;
-
+    Client *debC;
+    int nbC = 0;
     // Initalisation
 
     // Declaration de methode
     void affichageClient(Client **);
-    void ajoutClient(Client **, char[], char[], int, int, char[], char[]);
-    void supprimerClient(Client **, int);
+    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
+    void supprimerClient(Client **, int, int *);
 
     // Netoyage du terminal
     // system("cls");
@@ -48,19 +48,20 @@ void main()
     debC = NULL;
 
     // TEST !!
+    // Test Clients
 
     // Test d'ajouts
-    ajoutClient(&debC, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022");
-    ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022");
-    ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxxxx", "Nicolas", 4, 0, "25/11/2022", "26/11/2022");
+    ajoutClient(&debC, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022", &nbC);
+    ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
+    ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
 
     // Test suppression
     printf("Suppression du 1er (Van Quaquebeke):\n");
-    supprimerClient(&debC, 1);
+    supprimerClient(&debC, 3, &nbC);
     affichageClient(&debC);
-    // printf("Suppression du 2e (XXXXXX) :\n");
-    // supprimerClient(&debC, 2);
-    // affichageClient(&debC);
+    printf("Suppression du 2e (XXXXXX) :\n");
+    supprimerClient(&debC, 2, &nbC);
+    affichageClient(&debC);
 }
 
 //
@@ -69,7 +70,8 @@ void main()
 
 // Gestion des Client
 // Ajouts d'un client
-void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant, char dateDebut[], char dateFin[])
+void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant,
+                 char dateDebut[], char dateFin[], int *nb)
 {
     // Declaration
     Client *courant, *temp;
@@ -86,6 +88,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         strcpy((*courant).nom, nom);
         (*courant).nom[21] = '\0';
         strcpy((*courant).prenom, prenom);
+        (*courant).prenom[21] = '\0';
         (*courant).nbPersonne = nbPersonne;
         (*courant).nbEnfant = nbEnfant;
         strcpy((*courant).dateDebut, dateDebut);
@@ -102,6 +105,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         strcpy((*temp).nom, nom);
         (*temp).nom[21] = '\0';
         strcpy((*temp).prenom, prenom);
+        (*temp).prenom[21] = '\0';
         (*temp).nbPersonne = nbPersonne;
         (*temp).nbEnfant = nbEnfant;
         strcpy((*temp).dateDebut, dateDebut);
@@ -120,22 +124,18 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         }
         (*courant).suivant = temp;
     }
+    *nb += 1;
 }
-
 // Retirer un client
-void supprimerClient(Client **deb, int place)
+void supprimerClient(Client **deb, int place, int *n)
 {
     // Declaration
     Client *courant, *tempo;
     int i;
-    int n = 0;
-    courant = deb;
-    while ((*courant).suivant != NULL)
-    {
-        courant = (*courant).suivant;
-        n++;
-    }
-    if (place >= 1 && place > n)
+
+    // initalisation
+    courant = *deb;
+    if (place >= 1 && place < (*n) + 1)
     {
         if (place == 1)
         {
@@ -151,7 +151,7 @@ void supprimerClient(Client **deb, int place)
             {
                 courant = courant->suivant;
             }
-            if (place != n)
+            if (place != *n)
             {
                 // on fait dispara�tre un maillon de la chaine
                 tempo = courant->suivant;
@@ -165,12 +165,11 @@ void supprimerClient(Client **deb, int place)
                 free(tempo);
             }
         }
-        n--;
+        (*n) = (*n) - 1;
     }
     else
-        printf("impossible\n");
+        printf("impossible place = %d\n", place);
 }
-
 // pour encoder un emplacment
 void reserver(int id, int idEmplacement)
 {
@@ -179,7 +178,7 @@ void reserver(int id, int idEmplacement)
 void affichageClient(Client **deb)
 {
     Client *courant;
-    int i = 0;
+    int i = 1;
 
     courant = *deb;
 
