@@ -5,12 +5,12 @@
 // Creation des structure
 typedef struct Client
 {
-    char nom[50];
-    char prenom[50];
+    char nom[22];
+    char prenom[22];
     int nbPersonne;
     int nbEnfant;
-    char dateDebut[10];
-    char dateFin[10];
+    char dateDebut[11];
+    char dateFin[11];
     struct Client *suivant;
 } Client;
 
@@ -32,9 +32,11 @@ void main()
     deb = NULL;
     ajoutClient(&deb, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022");
     ajoutClient(&deb, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022");
+    ajoutClient(&deb, "xxxxxxxxxxxxxxxxxxxxxxxxxxx", "Nicolas", 4, 0, "25/11/2022", "26/11/2022");
 
     // Affichage du client
     affichageClient(&deb);
+    
 }
 
 //------- A finir (pour ajouter pas pour creer)
@@ -43,7 +45,6 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
 {
     // Declaration
     Client *courant, *temp;
-
     // On verifie si il exist deja un element dans la liste
     if (*deb == NULL)
     {
@@ -55,6 +56,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
 
         // Assigne les valeurs
         strcpy((*courant).nom, nom);
+        (*courant).nom[21] = '\0';
         strcpy((*courant).prenom, prenom);
         (*courant).nbPersonne = nbPersonne;
         (*courant).nbEnfant = nbEnfant;
@@ -62,6 +64,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         strcpy((*courant).dateFin, dateFin);
         (*courant).suivant = NULL;
     }
+    
     else
     {
         // on alloue de la memoire pour le client
@@ -69,6 +72,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
 
         // Assigne les valeurs
         strcpy((*temp).nom, nom);
+        (*temp).nom[21] = '\0';
         strcpy((*temp).prenom, prenom);
         (*temp).nbPersonne = nbPersonne;
         (*temp).nbEnfant = nbEnfant;
@@ -103,7 +107,7 @@ void affichageClient(Client **deb)
         printf("----+-----------------------+----------------------+----------------+-------------+---------------+-------------\n");
         while (courant != NULL)
         {
-            printf("%03d | %-20s | %-20s | %2d             | %2d          | %10s | %10s \n",
+            printf("%03d | %-21s | %-21s | %2d             | %2d          | %10s | %10s \n",
                    i++, (*courant).nom,(*courant).prenom,(*courant).nbPersonne,(*courant).nbEnfant,
     			   (*courant).dateDebut, (*courant).dateFin);
             courant = (*courant).suivant;
