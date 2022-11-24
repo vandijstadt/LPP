@@ -57,7 +57,7 @@ void main()
 
     // Test suppression
     printf("Suppression du 1er (Van Quaquebeke):\n");
-    supprimerClient(&debC, 3, &nbC);
+    supprimerClient(&debC, 1, &nbC);
     affichageClient(&debC);
     printf("Suppression du 2e (XXXXXX) :\n");
     supprimerClient(&debC, 2, &nbC);
@@ -93,6 +93,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         (*courant).nbEnfant = nbEnfant;
         strcpy((*courant).dateDebut, dateDebut);
         strcpy((*courant).dateFin, dateFin);
+        (*courant).idEmplacement = -1;
         (*courant).suivant = NULL;
     }
 
@@ -110,9 +111,10 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         (*temp).nbEnfant = nbEnfant;
         strcpy((*temp).dateDebut, dateDebut);
         strcpy((*temp).dateFin, dateFin);
+        (*temp).idEmplacement = -1;
         (*temp).suivant = NULL;
 
-        // Recherche ou mettre
+        // Recherche ou mettre a optimisier
         courant = *deb;
         while (0 == 0)
         {
@@ -171,8 +173,11 @@ void supprimerClient(Client **deb, int place, int *n)
         printf("impossible place = %d\n", place);
 }
 // pour encoder un emplacment
-void reserver(int id, int idEmplacement)
+void reserver(int id, int idEmplacement, int nb)
 {
+    if(id>nb && id<0){
+        
+    }
 }
 // Affichage des Client
 void affichageClient(Client **deb)
@@ -182,13 +187,19 @@ void affichageClient(Client **deb)
 
     courant = *deb;
 
-    printf(" N  |  Nom                  | Prenom                | Nb de personne | Nb d'enfant | Date de debut | Date de fin \n");
-    printf("----+-----------------------+-----------------------+----------------+-------------+---------------+-------------\n");
+    printf(" N  |  Nom                  | Prenom                | Nb de personne | Nb d'enfant | Date de debut | Date de fin | Id emplacement\n");
+    printf("----+-----------------------+-----------------------+----------------+-------------+---------------+-------------+---------------\n");
     while (courant != NULL)
     {
-        printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s \n",
-               i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
-               (*courant).dateDebut, (*courant).dateFin);
+        char idTmp[5];
+        if ((*courant).idEmplacement == -1)
+            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | Aucun\n",
+                   i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
+                   (*courant).dateDebut, (*courant).dateFin);
+        else
+            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | %03d\n",
+                   i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
+                   (*courant).dateDebut, (*courant).dateFin, (*courant).idEmplacement);
         courant = (*courant).suivant;
     }
     //    while (courant != NULL)
