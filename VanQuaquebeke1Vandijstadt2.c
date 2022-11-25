@@ -16,8 +16,10 @@ typedef struct Client
     char dateDebut[11];
     char dateFin[11];
     int idEmplacement;
+    bool paye;
     struct Client *suivant;
 } Client;
+
 typedef struct Emplacement
 {
     int num;
@@ -27,6 +29,7 @@ typedef struct Emplacement
     bool electricite;
     bool eau;
     bool wifi;
+    bool reserve;
     struct Emplacement *suivant;
 } Emplacement;
 void main()
@@ -35,8 +38,8 @@ void main()
     Client *debC;
     Emplacement *debE;
 
-    // Initalisation
     int nbC = 0, nbE = 0;
+    // Initalisation
 
     // Declaration de methode
     void affichageClient(Client **);
@@ -53,7 +56,7 @@ void main()
     debE = NULL;
 
     void test(int, Client *, Emplacement *);
-    test(1, debC, debE);
+    test(2, debC, debE);
 }
 void test(int test, Client *debC, Emplacement *debE)
 {
@@ -107,6 +110,7 @@ void test(int test, Client *debC, Emplacement *debE)
 //    Clients
 //
 
+// Gestion des Client
 // Ajouts d'un client
 void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant,
                  char dateDebut[], char dateFin[], int *nb)
@@ -210,6 +214,13 @@ void supprimerClient(Client **deb, int place, int *n)
     else
         printf("impossible place = %d\n", place);
 }
+
+//Lire les clients dans le fichier de données
+void lectureClient(){
+
+
+
+}
 // pour encoder un emplacment
 void reserver(int id, int idEmplacement, int nb)
 {
@@ -251,7 +262,6 @@ void affichageClient(Client **deb)
 // Emplacement
 //
 
-// ajouter un emplacement
 void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie, int nbMaxPers, bool electricite, bool eau, bool wifi, int *nb)
 {
     // Declaration
@@ -274,6 +284,7 @@ void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie,
         (*courant).electricite = electricite;
         (*courant).eau = eau;
         (*courant).wifi = wifi;
+        (*courant).reserve = false;
         (*courant).suivant = NULL;
     }
 
@@ -290,6 +301,7 @@ void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie,
         (*temp).electricite = electricite;
         (*temp).eau = eau;
         (*temp).wifi = wifi;
+        (*temp).reserve = false;
         (*temp).suivant = NULL;
         // Recherche ou mettre
         courant = *deb;
@@ -305,7 +317,25 @@ void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie,
     }
     *nb += 1;
 }
-// Suppresion d'emplacement
+
+// Affichage emplacement
+void affichageEmp(Emplacement **deb)
+{
+    Emplacement *courant;
+
+    courant = *deb;
+
+    printf(" Num |  Type      | mettre Carre | Nb de personne max | Elec | Eau | Wifi  | Reserve  \n");
+    printf("-----+------------+--------------+--------------------+------+-----+-------+--------- \n");
+    while (courant != NULL)
+    {
+        printf(" %03d | %-10s |     %3d      |         %2d         |  %1d   |  %1d  |  %1d    | %1d \n",
+               (*courant).num, (*courant).type, (*courant).superficie, (*courant).nbPersonneMax,
+               (*courant).electricite, (*courant).eau, (*courant).wifi, (*courant).reserve );
+        courant = (*courant).suivant;
+    }
+}
+// supprimer un emplacement
 void supprimerEmplacement(Emplacement **deb, int place, int *n)
 {
     // Declaration
@@ -348,21 +378,4 @@ void supprimerEmplacement(Emplacement **deb, int place, int *n)
     }
     else
         printf("impossible place = %d\n", place);
-}
-// Affichage emplacement
-void affichageEmp(Emplacement **deb)
-{
-    Emplacement *courant;
-
-    courant = *deb;
-
-    printf(" Num |  Type      | mettre Carre | Nb de personne max | Elec | Eau | Wifi \n");
-    printf("-----+------------+--------------+--------------------+------+-----+------\n");
-    while (courant != NULL)
-    {
-        printf(" %03d | %-10s |     %3d      |         %2d         |  %1d   |  %1d  |  %1d  \n",
-               (*courant).num, (*courant).type, (*courant).superficie, (*courant).nbPersonneMax,
-               (*courant).electricite, (*courant).eau, (*courant).wifi);
-        courant = (*courant).suivant;
-    }
 }
