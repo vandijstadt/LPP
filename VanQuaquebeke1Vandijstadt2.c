@@ -42,7 +42,7 @@ void main()
     void supprimerClient(Client **, int, int *);
 
     // Netoyage du terminal
-    // system("cls");
+    system("cls");
 
     // Creation du premier Client
     debC = NULL;
@@ -172,13 +172,6 @@ void supprimerClient(Client **deb, int place, int *n)
     else
         printf("impossible place = %d\n", place);
 }
-// pour encoder un emplacment
-void reserver(int id, int idEmplacement, int nb)
-{
-    if(id>nb && id<0){
-        
-    }
-}
 // Affichage des Client
 void affichageClient(Client **deb)
 {
@@ -208,4 +201,9 @@ void affichageClient(Client **deb)
     //               i++, courant, (*courant).nom, (*courant).suivant);
     //        courant = (*courant).suivant;
     //    }
+}
+
+// pour encoder un emplacment
+void reserver(int id, int idEmplacement, int nb)
+{
 }
