@@ -35,8 +35,8 @@ void main()
     Client *debC;
     Emplacement *debE;
 
-    int nbC = 0, nbE = 0;
     // Initalisation
+    int nbC = 0, nbE = 0;
 
     // Declaration de methode
     void affichageClient(Client **);
@@ -52,36 +52,61 @@ void main()
     debC = NULL;
     debE = NULL;
 
+    void test(int, Client *, Emplacement *);
+    test(1, debC, debE);
+}
+void test(int test, Client *debC, Emplacement *debE)
+{
+    // Initalisation
+    int nbC = 0, nbE = 0;
+
+    // Declaration de methode
+    void affichageClient(Client **);
+    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
+    void supprimerClient(Client **, int, int *);
+    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
+    void affichageEmp(Emplacement **);
+    void supprimerClient(Client **, int, int *);
+
     // TEST !!
     // Test Clients
+    if (test == 1)
+    {
+        // Test d'ajouts
+        ajoutClient(&debC, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022", &nbC);
+        ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
+        ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
+        affichageClient(&debC);
 
-    // // Test d'ajouts
-    // ajoutClient(&debC, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022", &nbC);
-    // ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
-    // ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
-
-    // // Test suppression
-    // printf("Suppression du 1er (Van Quaquebeke):\n");
-    // supprimerClient(&debC, 1, &nbC);
-    // affichageClient(&debC);
-    // printf("Suppression du 2e (XXXXXX) :\n");
-    // supprimerClient(&debC, 2, &nbC);
-    // affichageClient(&debC);
-
-    // Test emplacements
-
-    // Test ajouts
-    ajouterEmplacement(&debE, 1, "Tente", 100, 4, true, true, true, &nbE);
-    ajouterEmplacement(&debE, 2, "Bungalow", 100, 4, true, true, true, &nbE);
-    ajouterEmplacement(&debE, 3, "Caravane", 100, 4, true, true, true, &nbE);
-    affichageEmp(&debE);
+        // Test suppression
+        printf("Suppression du 1er (Van Quaquebeke):\n");
+        supprimerClient(&debC, 1, &nbC);
+        affichageClient(&debC);
+        printf("Suppression du 2e (XXXXXX) :\n");
+        supprimerClient(&debC, 2, &nbC);
+        affichageClient(&debC);
+    }
+    else if (test == 2)
+    {
+        // Test emplacements
+        // Test ajouts
+        ajouterEmplacement(&debE, 1, "Tente", 100, 4, true, true, true, &nbE);
+        ajouterEmplacement(&debE, 2, "Bungalow", 100, 4, true, true, true, &nbE);
+        ajouterEmplacement(&debE, 3, "Caravane", 100, 4, true, true, true, &nbE);
+        affichageEmp(&debE);
+        // Test suppresion
+        printf("Suppression du 1er (???):\n");
+        supprimerClient(&debE, 1, &nbE);
+        affichageEmp(&debE);
+        printf("Suppression du 2e  (???):\n");
+        supprimerClient(&debE, 2, &nbE);
+        affichageEmp(&debE);
+    }
 }
-
 //
 //    Clients
 //
 
-// Gestion des Client
 // Ajouts d'un client
 void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant,
                  char dateDebut[], char dateFin[], int *nb)
@@ -226,6 +251,7 @@ void affichageClient(Client **deb)
 // Emplacement
 //
 
+// ajouter un emplacement
 void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie, int nbMaxPers, bool electricite, bool eau, bool wifi, int *nb)
 {
     // Declaration
@@ -279,7 +305,50 @@ void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie,
     }
     *nb += 1;
 }
+// Suppresion d'emplacement
+void supprimerEmplacement(Emplacement **deb, int place, int *n)
+{
+    // Declaration
+    Emplacement *courant, *tempo;
+    int i;
 
+    // initalisation
+    courant = *deb;
+    if (place >= 1 && place < (*n))
+    {
+        if (place == 1)
+        {
+            tempo = *deb;
+            *deb = (**deb).suivant;
+            free(tempo);
+        }
+        else
+        {
+            courant = *deb;
+            // on se d?place jusqu'? la bonne adresse
+            for (i = 1; i < place - 1; i++)
+            {
+                courant = courant->suivant;
+            }
+            if (place != *n)
+            {
+                // on fait dispara?tre un maillon de la chaine
+                tempo = courant->suivant;
+                courant->suivant = tempo->suivant;
+                free(tempo);
+            }
+            else
+            {
+                tempo = courant->suivant;
+                courant->suivant = NULL;
+                free(tempo);
+            }
+        }
+        (*n) = (*n) - 1;
+    }
+    else
+        printf("impossible place = %d\n", place);
+}
 // Affichage emplacement
 void affichageEmp(Emplacement **deb)
 {
