@@ -21,7 +21,7 @@ typedef struct Client
 typedef struct Emplacement
 {
     int num;
-    char type[9];
+    char type[11];
     int superficie;
     int nbPersonneMax;
     bool electricite;
@@ -33,35 +33,48 @@ void main()
 {
     // Declaration
     Client *debC;
-    int nbC = 0;
+    Emplacement *debE;
+
+    int nbC = 0, nbE = 0;
     // Initalisation
 
     // Declaration de methode
     void affichageClient(Client **);
     void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
     void supprimerClient(Client **, int, int *);
+    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
+    void affichageEmp(Emplacement **);
 
     // Netoyage du terminal
-    system("cls");
+    // system("cls");
 
     // Creation du premier Client
     debC = NULL;
+    debE = NULL;
 
     // TEST !!
     // Test Clients
 
-    // Test d'ajouts
-    ajoutClient(&debC, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022", &nbC);
-    ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
-    ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
+    // // Test d'ajouts
+    // ajoutClient(&debC, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022", &nbC);
+    // ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
+    // ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
 
-    // Test suppression
-    printf("Suppression du 1er (Van Quaquebeke):\n");
-    supprimerClient(&debC, 1, &nbC);
-    affichageClient(&debC);
-    printf("Suppression du 2e (XXXXXX) :\n");
-    supprimerClient(&debC, 2, &nbC);
-    affichageClient(&debC);
+    // // Test suppression
+    // printf("Suppression du 1er (Van Quaquebeke):\n");
+    // supprimerClient(&debC, 1, &nbC);
+    // affichageClient(&debC);
+    // printf("Suppression du 2e (XXXXXX) :\n");
+    // supprimerClient(&debC, 2, &nbC);
+    // affichageClient(&debC);
+
+    // Test emplacements
+
+    // Test ajouts
+    ajouterEmplacement(&debE, 1, "Tente", 100, 4, true, true, true, &nbE);
+    ajouterEmplacement(&debE, 2, "Bungalow", 100, 4, true, true, true, &nbE);
+    ajouterEmplacement(&debE, 3, "Caravane", 100, 4, true, true, true, &nbE);
+    affichageEmp(&debE);
 }
 
 //
@@ -148,14 +161,14 @@ void supprimerClient(Client **deb, int place, int *n)
         else
         {
             courant = *deb;
-            // on se d�place jusqu'� la bonne adresse
+            // on se d?place jusqu'? la bonne adresse
             for (i = 1; i < place - 1; i++)
             {
                 courant = courant->suivant;
             }
             if (place != *n)
             {
-                // on fait dispara�tre un maillon de la chaine
+                // on fait dispara?tre un maillon de la chaine
                 tempo = courant->suivant;
                 courant->suivant = tempo->suivant;
                 free(tempo);
@@ -172,6 +185,13 @@ void supprimerClient(Client **deb, int place, int *n)
     else
         printf("impossible place = %d\n", place);
 }
+// pour encoder un emplacment
+void reserver(int id, int idEmplacement, int nb)
+{
+    if (id > nb && id < 0)
+    {
+    }
+}
 // Affichage des Client
 void affichageClient(Client **deb)
 {
@@ -184,7 +204,6 @@ void affichageClient(Client **deb)
     printf("----+-----------------------+-----------------------+----------------+-------------+---------------+-------------+---------------\n");
     while (courant != NULL)
     {
-        char idTmp[5];
         if ((*courant).idEmplacement == -1)
             printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | Aucun \n",
                    i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
@@ -203,7 +222,78 @@ void affichageClient(Client **deb)
     //    }
 }
 
-// pour encoder un emplacment
-void reserver(int id, int idEmplacement, int nb)
+//
+// Emplacement
+//
+
+void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie, int nbMaxPers, bool electricite, bool eau, bool wifi, int *nb)
 {
+    // Declaration
+    Emplacement *courant, *temp;
+    // On verifie si il exist deja un element dans la liste
+    // On verifie si il exist deja un element dans la liste
+    if (*deb == NULL)
+    {
+        // on alloue de la memoire pour le client
+        courant = malloc(sizeof(Emplacement));
+
+        // On declarre que c'est le premier element
+        *deb = courant;
+
+        // Assigne les valeurs
+        (*courant).num = num;
+        strcpy((*courant).type, type);
+        (*courant).superficie = superficie;
+        (*courant).nbPersonneMax = nbMaxPers;
+        (*courant).electricite = electricite;
+        (*courant).eau = eau;
+        (*courant).wifi = wifi;
+        (*courant).suivant = NULL;
+    }
+
+    else
+    {
+        // on alloue de la memoire pour le client
+        temp = malloc(sizeof(Emplacement));
+
+        // Assigne les valeurs
+        (*temp).num = num;
+        strcpy((*temp).type, type);
+        (*temp).superficie = superficie;
+        (*temp).nbPersonneMax = nbMaxPers;
+        (*temp).electricite = electricite;
+        (*temp).eau = eau;
+        (*temp).wifi = wifi;
+        (*temp).suivant = NULL;
+        // Recherche ou mettre
+        courant = *deb;
+        while (0 == 0)
+        {
+            if ((*courant).suivant == NULL)
+            {
+                break;
+            }
+            courant = (*courant).suivant;
+        }
+        (*courant).suivant = temp;
+    }
+    *nb += 1;
+}
+
+// Affichage emplacement
+void affichageEmp(Emplacement **deb)
+{
+    Emplacement *courant;
+
+    courant = *deb;
+
+    printf(" Num |  Type      | mettre Carre | Nb de personne max | Elec | Eau | Wifi \n");
+    printf("-----+------------+--------------+--------------------+------+-----+------\n");
+    while (courant != NULL)
+    {
+        printf(" %03d | %-10s |     %3d      |         %2d         |  %1d   |  %1d  |  %1d  \n",
+               (*courant).num, (*courant).type, (*courant).superficie, (*courant).nbPersonneMax,
+               (*courant).electricite, (*courant).eau, (*courant).wifi);
+        courant = (*courant).suivant;
+    }
 }
