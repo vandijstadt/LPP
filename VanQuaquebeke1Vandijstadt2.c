@@ -186,11 +186,11 @@ void affichageClient(Client **deb)
     {
         char idTmp[5];
         if ((*courant).idEmplacement == -1)
-            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | Aucun\n",
+            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | Aucun \n",
                    i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
                    (*courant).dateDebut, (*courant).dateFin);
         else
-            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | %03d\n",
+            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | %03d \n",
                    i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
                    (*courant).dateDebut, (*courant).dateFin, (*courant).idEmplacement);
         courant = (*courant).suivant;
