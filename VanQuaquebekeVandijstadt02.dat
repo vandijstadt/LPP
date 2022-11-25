@@ -1,4 +1,4 @@
-Num | Type        | m²    | NbPersonMax | Elec | Eau |  Wifi | Reserver |
+Num | Type        | mcarre| NbPersonMax | Elec | Eau |  Wifi | Reserve  |
 -------------------------------------------------------------+----------|
   1 | Tente       |  95   |     3       |   1  |  1  |    0  |   0      |
   2 | Tente       |  80   |     5       |   1  |  1  |    0  |   0      |
