@@ -56,7 +56,7 @@ void main()
     debE = NULL;
 
     void test(int, Client *, Emplacement *);
-    test(2, debC, debE);
+    test(1, debC, debE);
 }
 void test(int test, Client *debC, Emplacement *debE)
 {
