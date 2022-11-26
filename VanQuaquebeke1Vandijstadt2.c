@@ -61,9 +61,13 @@ void main()
 
     // Le menu
 
+/////// GERER LES ECRITURES 
+
+
+
     // Les test !
     void test(int, Client **, Emplacement **);
-    test(2, &debC, &debE);
+    test(3, &debC, &debE);
 }
 void test(int test, Client **debC, Emplacement **debE)
 {
@@ -108,12 +112,12 @@ void test(int test, Client **debC, Emplacement **debE)
         ajouterEmplacement(debE, "Caravane", 100, 4, true, true, true, &nbE);
         affichageEmp(debE);
         // Test suppresion
-        // printf("Suppression du 1er ():\n");
-        // supprimerEmplacement(debE, 1, &nbE);
-        // affichageEmp(debE);
-        // printf("Suppression du 2e  ():\n");
-        // supprimerEmplacement(debE, 2, &nbE);
-        // affichageEmp(debE);
+        printf("Suppression du 1er ():\n");
+        supprimerEmplacement(debE, 1, &nbE);
+        affichageEmp(debE);
+        printf("Suppression du 2e  ():\n");
+        supprimerEmplacement(debE, 2, &nbE);
+        affichageEmp(debE);
     }
     // Lecture
     else if (test == 3)
@@ -128,7 +132,7 @@ void test(int test, Client **debC, Emplacement **debE)
     {
         // Clients
         // lectureClient(debC, &nbC);
-        //ecritureClient(debC, &nbC);
+        // ecritureClient(debC, &nbC);
         // Emplacement
         // lectureEmplacement(debE, &nbE);
         // ajouterEmplacement(debE,0,)
@@ -151,14 +155,20 @@ void affichageClient(Client **deb)
     printf("----+-----------------------+-----------------------+----------------+-------------+---------------+-------------+----------------+--------\n");
     while (courant != NULL)
     {
+        char tmp[4];
+        strcpy(tmp, "Oui");
+        if ((*courant).paye == 0)
+        {
+            strcpy(tmp, "Non");
+        }
         if ((*courant).idEmplacement == -1)
-            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | Aucun \n",
+            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | Aucun | %3s \n",
                    i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
-                   (*courant).dateDebut, (*courant).dateFin);
+                   (*courant).dateDebut, (*courant).dateFin, tmp);
         else
-            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | %03d | %01d \n",
+            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | %03d | %1d | %3s \n",
                    i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
-                   (*courant).dateDebut, (*courant).dateFin, (*courant).idEmplacement, (*courant).paye);
+                   (*courant).dateDebut, (*courant).dateFin, (*courant).idEmplacement, tmp);
         courant = (*courant).suivant;
     }
 }
@@ -226,7 +236,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
 }
 // Ajouts clients lors de la lecture
 void ajoutClientL(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant,
-                 char dateDebut[], char dateFin[], int payer, int idEmplacement,int *nb)
+                  char dateDebut[], char dateFin[], int payer, int idEmplacement, int *nb)
 {
     // Declaration
     Client *courant, *temp;
@@ -350,7 +360,7 @@ void lectureClient(Client **deb, int *nbC)
     {
         fscanf(fdat, "%*1c %20s %*1c %2d %*1c %2d %*1c %10s %*1c %10s %*1c %2d %*1c %1d", &prenom, &nbPersonne,
                &nbEnfant, &dateDebut, &dateFin, &idEmplacement, &paye);
-        ajoutClientL(deb, nom, prenom, nbPersonne, nbEnfant, dateDebut, paye, idEmplacement,dateFin, nbC);
+        ajoutClientL(deb, nom, prenom, nbPersonne, nbEnfant, dateDebut, dateFin, paye, idEmplacement, nbC);
         // printf("%-20s %-20s %2d %2d %-10s %-10s %2d %1d\n", nom, prenom, nbPersonne,
         // nbEnfant, dateDebut, dateFin, idEmplacement, paye);
         fscanf(fdat, "%20s ", &nom);
@@ -537,11 +547,11 @@ void ecritureEmplacement(Emplacement **deb, int *nbc)
     fprintf(fres, "Num | Type     | mCarre | NbPersonMax | Elec | Eau |  Wifi | Reserve  \n");
     fprintf(fres, "----+----------+--------+-------------+------+-----+-------+----------\n");
 
-     for (i = 0; i < *nbc; i++)
+    for (i = 0; i < *nbc; i++)
     {
         // fprintf(fres, " %03d |  |  |  |  |  |  |  \n", i, (*courant).nom, (*courant).prenom,
-                // (*courant).nbPersonne, (*courant).nbEnfant, (*courant).dateDebut, (*courant).dateFin,
-                // (*courant).idEmplacement, (*courant).paye);
+        // (*courant).nbPersonne, (*courant).nbEnfant, (*courant).dateDebut, (*courant).dateFin,
+        // (*courant).idEmplacement, (*courant).paye);
         courant = (*courant).suivant;
     }
 }
