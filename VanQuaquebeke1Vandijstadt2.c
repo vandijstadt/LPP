@@ -48,7 +48,7 @@ void main()
     void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
     void affichageEmp(Emplacement **);
     void lectureClient(Client **, int *);
-	void lectureEmplacement(Emplacement *, int *);
+	void lectureEmplacement(Emplacement **, int *);
     // Netoyage du terminal
     // system("cls");
 
@@ -70,7 +70,6 @@ void test(int test, Client *debC, Emplacement *debE)
 {
    // Initalisation
    int nbC = 0, nbE = 0;
-
    // Declaration de methode
    void affichageClient(Client **);
    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
@@ -78,8 +77,6 @@ void test(int test, Client *debC, Emplacement *debE)
    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
    void affichageEmp(Emplacement **);
    void supprimerClient(Client **, int, int *);
-
-
    // TEST !!
    // Test Clients
    if (test == 1)
@@ -89,7 +86,6 @@ void test(int test, Client *debC, Emplacement *debE)
        ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
        ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
        affichageClient(&debC);
-
        // Test suppression
        printf("Suppression du 1er (Van Quaquebeke):\n");
        supprimerClient(&debC, 1, &nbC);
@@ -289,7 +285,7 @@ void affichageClient(Client **deb)
 // Emplacement
 //
 
-void lectureEmplacement(Emplacement *deb, int *nbE){
+void lectureEmplacement(Emplacement **deb, int *nbE){
 	FILE *fdat;
 	int num, superficie, nbPersonneMax;
     char type[11];
