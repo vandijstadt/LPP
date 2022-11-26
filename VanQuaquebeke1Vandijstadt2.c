@@ -53,7 +53,7 @@ void main()
     void lectureEmplacement(Emplacement **, int *);
 
     // Netoyage du terminal
-    system("cls");
+    // system("cls");
 
     // Creation du premier Client
     debC = NULL;
@@ -63,7 +63,7 @@ void main()
 
     // Les test !
     void test(int, Client **, Emplacement **);
-    test(3, &debC, &debE);
+    test(4, &debC, &debE);
 }
 void test(int test, Client **debC, Emplacement **debE)
 {
@@ -75,6 +75,7 @@ void test(int test, Client **debC, Emplacement **debE)
     void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
     void supprimerClient(Client **, int, int *);
     void lectureClient(Client **, int *);
+    void ecritureClient(Client **, int *);
 
     void affichageEmp(Emplacement **);
     void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
@@ -114,7 +115,7 @@ void test(int test, Client **debC, Emplacement **debE)
         affichageEmp(debE);
     }
     // Lecture
-    else if (test = 3)
+    else if (test == 3)
     {
         lectureClient(debC, &nbC);
         affichageClient(debC);
@@ -122,8 +123,11 @@ void test(int test, Client **debC, Emplacement **debE)
         affichageEmp(debE);
     }
     // Ecriture
-    else if (test = 4)
+    else if (test == 4)
     {
+        lectureClient(debC, &nbC);
+        ajoutClient(debC, "Michelle", "jacqueline", 5, 3, "05/12/2020", "06/12/2020", &nbC);
+        ecritureClient(debC, &nbC);
     }
 }
 //
@@ -179,6 +183,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         strcpy((*courant).dateDebut, dateDebut);
         strcpy((*courant).dateFin, dateFin);
         (*courant).idEmplacement = -1;
+        (*courant).paye=0;
         (*courant).suivant = NULL;
     }
 
@@ -197,6 +202,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         strcpy((*temp).dateDebut, dateDebut);
         strcpy((*temp).dateFin, dateFin);
         (*temp).idEmplacement = -1;
+        (*temp).paye=0;
         (*temp).suivant = NULL;
 
         // Recherche ou mettre a optimisier
@@ -282,6 +288,27 @@ void lectureClient(Client **deb, int *nbC)
         // printf("%-20s %-20s %2d %2d %-10s %-10s %2d %1d\n", nom, prenom, nbPersonne,
         // nbEnfant, dateDebut, dateFin, idEmplacement, paye);
         fscanf(fdat, "%20s ", &nom);
+    }
+}
+
+// Lire les clients dans le fichier de donnÃƒÂ©es
+void ecritureClient(Client **deb, int *nbc)
+{
+    FILE *fres;
+    fres = fopen("VanQuaquebekeVandijstadt01.dat", "w");
+    Client *courant = *deb;
+
+    int i;
+
+    fprintf(fres, "Nom                  | Prenom               |  Nb   | NbEnfants |   Debut    | Fin        | Emplacement| Payé \n");
+    fprintf(fres, "---------------------+----------------------+-------+-----------+------------+------------+------------+------\n");
+
+    for (i = 0; i < *nbc; i++)
+    {
+        fprintf(fres, "%-20s | %-20s |  %2d   |    %2d     | %10s | %10s |     %2d     | %1d \n", (*courant).nom, (*courant).prenom,
+                (*courant).nbPersonne, (*courant).nbEnfant, (*courant).dateDebut, (*courant).dateFin,
+                (*courant).idEmplacement, (*courant).paye);
+        courant = (*courant).suivant;
     }
 }
 
