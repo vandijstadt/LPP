@@ -48,7 +48,7 @@ void main()
     void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
     void affichageEmp(Emplacement **);
     void lectureClient(Client **, int *);
-	void lectureEmplacement();
+	void lectureEmplacement(Emplacement *, int *);
     // Netoyage du terminal
     // system("cls");
 
@@ -59,11 +59,10 @@ void main()
     //void test(int, Client *, Emplacement *);
     //test(1, debC, debE);
 
-    //lectureClient(&debC, &nbC);
-    //affichageClient(&debC);
+    lectureClient(&debC, &nbC);
+    affichageClient(&debC);
     lectureEmplacement(&debE, &nbE);
-    affichageEmp(&debE);
-
+	affichageEmp(&debE);
  
 
 }/*
@@ -71,6 +70,7 @@ void test(int test, Client *debC, Emplacement *debE)
 {
    // Initalisation
    int nbC = 0, nbE = 0;
+
    // Declaration de methode
    void affichageClient(Client **);
    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
@@ -78,6 +78,8 @@ void test(int test, Client *debC, Emplacement *debE)
    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
    void affichageEmp(Emplacement **);
    void supprimerClient(Client **, int, int *);
+
+
    // TEST !!
    // Test Clients
    if (test == 1)
@@ -87,6 +89,7 @@ void test(int test, Client *debC, Emplacement *debE)
        ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
        ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
        affichageClient(&debC);
+
        // Test suppression
        printf("Suppression du 1er (Van Quaquebeke):\n");
        supprimerClient(&debC, 1, &nbC);
@@ -221,7 +224,7 @@ void supprimerClient(Client **deb, int place, int *n)
         printf("impossible place = %d\n", place);
 }
 
-//Lire les clients dans le fichier de donnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©es
+//Lire les clients dans le fichier de donnÃƒÆ’Ã‚Â©es
 void lectureClient(Client **deb, int *nbC){
     FILE *fdat;
     char nom[22], prenom[22];
@@ -286,24 +289,26 @@ void affichageClient(Client **deb)
 // Emplacement
 //
 
-void lectureEmplacement(){
-    FILE *fdat;
-    int num, superficie, nbPersonneMax;
+void lectureEmplacement(Emplacement *deb, int *nbE){
+	FILE *fdat;
+	int num, superficie, nbPersonneMax;
     char type[11];
     int electricite, eau, wifi, reserve;
+    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
     fdat = fopen("VanQuaquebekeVandijstadt02.dat", "r");
     fscanf(fdat, "%*[^\n]");
     fscanf(fdat, " %*[^\n]");
-
     
     fscanf(fdat, "%2d ", &num);
     while(!feof(fdat)){
-        fscanf(fdat,"%*c %8s %*c %3d %*c %2d %*c %1d %*c %1d %*c %1d %*c %1d %*c", &type, &superficie, &nbPersonneMax, &electricite, &eau , &wifi, &reserve);
-        //printf("%2d %9s %3d %2d %1d %1d %1d %1d\n", num, type, superficie, nbPersonneMax, electricite, eau , wifi, reserve);
-        ajouterEmplacement
-		fscanf(fdat, "%2d ", &num);
-    }
+    	fscanf(fdat,"%*c %8s %*c %3d %*c %2d %*c %1d %*c %1d %*c %1d %*c %1d %*c", &type, &superficie, &nbPersonneMax, &electricite, &eau , &wifi, &reserve);
+    	ajouterEmplacement(deb, num, type, superficie, nbPersonneMax, electricite, eau, wifi, nbE);
+//    	printf("%2d %9s %3d %2d %1d %1d %1d %1d\n", num, type, superficie, nbPersonneMax, electricite, eau , wifi, reserve);
+    	fscanf(fdat, "%2d ", &num);
+	}
     
+
+	
 }
 void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie, int nbMaxPers, bool electricite, bool eau, bool wifi, int *nb)
 {
