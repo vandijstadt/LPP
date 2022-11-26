@@ -47,6 +47,7 @@ void main()
     void supprimerClient(Client **, int, int *);
     void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
     void affichageEmp(Emplacement **);
+    void lectureClient();
 
     // Netoyage du terminal
     // system("cls");
@@ -55,57 +56,63 @@ void main()
     debC = NULL;
     debE = NULL;
 
-    void test(int, Client *, Emplacement *);
-    test(1, debC, debE);
+    //void test(int, Client *, Emplacement *);
+    //test(1, debC, debE);
+
+    lectureClient();
+
+ 
+
 }
-void test(int test, Client *debC, Emplacement *debE)
-{
-    // Initalisation
-    int nbC = 0, nbE = 0;
-
-    // Declaration de methode
-    void affichageClient(Client **);
-    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
-    void supprimerClient(Client **, int, int *);
-    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
-    void affichageEmp(Emplacement **);
-    void supprimerClient(Client **, int, int *);
-
-    // TEST !!
-    // Test Clients
-    if (test == 1)
-    {
-        // Test d'ajouts
-        ajoutClient(&debC, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022", &nbC);
-        ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
-        ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
-        affichageClient(&debC);
-
-        // Test suppression
-        printf("Suppression du 1er (Van Quaquebeke):\n");
-        supprimerClient(&debC, 1, &nbC);
-        affichageClient(&debC);
-        printf("Suppression du 2e (XXXXXX) :\n");
-        supprimerClient(&debC, 2, &nbC);
-        affichageClient(&debC);
-    }
-    else if (test == 2)
-    {
-        // Test emplacements
-        // Test ajouts
-        ajouterEmplacement(&debE, 1, "Tente", 100, 4, true, true, true, &nbE);
-        ajouterEmplacement(&debE, 2, "Bungalow", 100, 4, true, true, true, &nbE);
-        ajouterEmplacement(&debE, 3, "Caravane", 100, 4, true, true, true, &nbE);
-        affichageEmp(&debE);
-        // Test suppresion
-        printf("Suppression du 1er (???):\n");
-        supprimerClient(&debE, 1, &nbE);
-        affichageEmp(&debE);
-        printf("Suppression du 2e  (???):\n");
-        supprimerClient(&debE, 2, &nbE);
-        affichageEmp(&debE);
-    }
-}
+//void test(int test, Client *debC, Emplacement *debE)
+//{
+//    // Initalisation
+//    int nbC = 0, nbE = 0;
+//
+//    // Declaration de methode
+//    void affichageClient(Client **);
+//    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
+//    void supprimerClient(Client **, int, int *);
+//    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
+//    void affichageEmp(Emplacement **);
+//    void supprimerClient(Client **, int, int *);
+//
+//
+//    // TEST !!
+//    // Test Clients
+//    if (test == 1)
+//    {
+//        // Test d'ajouts
+//        ajoutClient(&debC, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022", &nbC);
+//        ajoutClient(&debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
+//        ajoutClient(&debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
+//        affichageClient(&debC);
+//
+//        // Test suppression
+//        printf("Suppression du 1er (Van Quaquebeke):\n");
+//        supprimerClient(&debC, 1, &nbC);
+//        affichageClient(&debC);
+//        printf("Suppression du 2e (XXXXXX) :\n");
+//        supprimerClient(&debC, 2, &nbC);
+//        affichageClient(&debC);
+//    }
+//    else if (test == 2)
+//    {
+//        // Test emplacements
+//        // Test ajouts
+//        ajouterEmplacement(&debE, 1, "Tente", 100, 4, true, true, true, &nbE);
+//        ajouterEmplacement(&debE, 2, "Bungalow", 100, 4, true, true, true, &nbE);
+//        ajouterEmplacement(&debE, 3, "Caravane", 100, 4, true, true, true, &nbE);
+//        affichageEmp(&debE);
+//        // Test suppresion
+//        printf("Suppression du 1er (???):\n");
+//        supprimerClient(&debE, 1, &nbE);
+//        affichageEmp(&debE);
+//        printf("Suppression du 2e  (???):\n");
+//        supprimerClient(&debE, 2, &nbE);
+//        affichageEmp(&debE);
+//    }
+//}
 //
 //    Clients
 //
@@ -215,10 +222,25 @@ void supprimerClient(Client **deb, int place, int *n)
         printf("impossible place = %d\n", place);
 }
 
-//Lire les clients dans le fichier de données
+//Lire les clients dans le fichier de donnÃƒÂ©es
 void lectureClient(){
+    FILE *fdat;
+    char nom[22], prenom[22];
+    int nbPersonne, idEmplacement, nbEnfant;
+    char dateDebut[11] , dateFin[11];
+    int paye;
+    fdat = fopen("VanQuaquebekeVandijstadt01.dat", "r");
 
+ 	fscanf(fdat, "%*[^\n]");
+    fscanf(fdat, "%1c %*[^\n]");
 
+    fscanf(fdat, "%20s", &nom);
+    printf("%20s", nom);
+    // while(!feof(fdat)){
+    //     fscanf(fdat, "%*c %20s %*c %2d %*c %2d %*c %10s %*c %10s %*c %2d %*c %1d ", &prenom, &nbPersonne, &nbEnfant, &dateDebut, &dateFin, &idEmplacement, &paye);
+    //     printf("%20s %21s  %2d  %1d  %10s %10s  %2d  %1d ", nom, prenom, nbPersonne, nbEnfant, dateDebut, dateFin, idEmplacement, paye);
+    //    fscanf(fdat, "%21s", &nom);
+    // }
 
 }
 // pour encoder un emplacment
