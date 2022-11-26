@@ -48,7 +48,7 @@ void main()
     void lectureClient(Client **, int *);
 
     void affichageEmp(Emplacement **);
-    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
+    void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
     void supprimerEmplacement(Emplacement **, int, int *);
     void lectureEmplacement(Emplacement **, int *);
 
@@ -63,7 +63,7 @@ void main()
 
     // Les test !
     void test(int, Client **, Emplacement **);
-    test(4, &debC, &debE);
+    test(2, &debC, &debE);
 }
 void test(int test, Client **debC, Emplacement **debE)
 {
@@ -78,9 +78,10 @@ void test(int test, Client **debC, Emplacement **debE)
     void ecritureClient(Client **, int *);
 
     void affichageEmp(Emplacement **);
-    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
+    void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
     void supprimerEmplacement(Emplacement **, int, int *);
     void lectureEmplacement(Emplacement **, int *);
+    void ecritureEmplacement(Emplacement **, int *);
     // TEST !!
     // Test Clients
     if (test == 1)
@@ -102,17 +103,17 @@ void test(int test, Client **debC, Emplacement **debE)
     else if (test == 2)
     {
         // Test ajouts
-        ajouterEmplacement(debE, 1, "Tente", 100, 4, true, true, true, &nbE);
-        ajouterEmplacement(debE, 2, "Bungalow", 100, 4, true, true, true, &nbE);
-        ajouterEmplacement(debE, 3, "Caravane", 100, 4, true, true, true, &nbE);
+        ajouterEmplacement(debE, "Tente", 100, 4, true, true, true, &nbE);
+        ajouterEmplacement(debE, "Bungalow", 100, 4, true, true, true, &nbE);
+        ajouterEmplacement(debE, "Caravane", 100, 4, true, true, true, &nbE);
         affichageEmp(debE);
         // Test suppresion
-        printf("Suppression du 1er ():\n");
-        supprimerEmplacement(debE, 1, &nbE);
-        affichageEmp(debE);
-        printf("Suppression du 2e  ():\n");
-        supprimerEmplacement(debE, 2, &nbE);
-        affichageEmp(debE);
+        // printf("Suppression du 1er ():\n");
+        // supprimerEmplacement(debE, 1, &nbE);
+        // affichageEmp(debE);
+        // printf("Suppression du 2e  ():\n");
+        // supprimerEmplacement(debE, 2, &nbE);
+        // affichageEmp(debE);
     }
     // Lecture
     else if (test == 3)
@@ -125,9 +126,13 @@ void test(int test, Client **debC, Emplacement **debE)
     // Ecriture
     else if (test == 4)
     {
-        lectureClient(debC, &nbC);
-        ajoutClient(debC, "Michelle", "jacqueline", 5, 3, "05/12/2020", "06/12/2020", &nbC);
-        ecritureClient(debC, &nbC);
+        // Clients
+        // lectureClient(debC, &nbC);
+        //ecritureClient(debC, &nbC);
+        // Emplacement
+        // lectureEmplacement(debE, &nbE);
+        // ajouterEmplacement(debE,0,)
+        // ecritureEmplacement(debE, &nbE);
     }
 }
 //
@@ -142,8 +147,8 @@ void affichageClient(Client **deb)
 
     courant = *deb;
 
-    printf(" N  |  Nom                  | Prenom                | Nb de personne | Nb d'enfant | Date de debut | Date de fin | Id emplacement\n");
-    printf("----+-----------------------+-----------------------+----------------+-------------+---------------+-------------+---------------\n");
+    printf(" N  |  Nom                  | Prenom                | Nb de personne | Nb d'enfant | Date de debut | Date de fin | Id emplacement | Payer ?\n");
+    printf("----+-----------------------+-----------------------+----------------+-------------+---------------+-------------+----------------+--------\n");
     while (courant != NULL)
     {
         if ((*courant).idEmplacement == -1)
@@ -151,9 +156,9 @@ void affichageClient(Client **deb)
                    i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
                    (*courant).dateDebut, (*courant).dateFin);
         else
-            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | %03d \n",
+            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | %03d | %01d \n",
                    i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
-                   (*courant).dateDebut, (*courant).dateFin, (*courant).idEmplacement);
+                   (*courant).dateDebut, (*courant).dateFin, (*courant).idEmplacement, (*courant).paye);
         courant = (*courant).suivant;
     }
 }
@@ -183,7 +188,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         strcpy((*courant).dateDebut, dateDebut);
         strcpy((*courant).dateFin, dateFin);
         (*courant).idEmplacement = -1;
-        (*courant).paye=0;
+        (*courant).paye = 0;
         (*courant).suivant = NULL;
     }
 
@@ -202,7 +207,68 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         strcpy((*temp).dateDebut, dateDebut);
         strcpy((*temp).dateFin, dateFin);
         (*temp).idEmplacement = -1;
-        (*temp).paye=0;
+        (*temp).paye = 0;
+        (*temp).suivant = NULL;
+
+        // Recherche ou mettre a optimisier
+        courant = *deb;
+        while (0 == 0)
+        {
+            if ((*courant).suivant == NULL)
+            {
+                break;
+            }
+            courant = (*courant).suivant;
+        }
+        (*courant).suivant = temp;
+    }
+    *nb += 1;
+}
+// Ajouts clients lors de la lecture
+void ajoutClientL(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant,
+                 char dateDebut[], char dateFin[], int payer, int idEmplacement,int *nb)
+{
+    // Declaration
+    Client *courant, *temp;
+    // On verifie si il exist deja un element dans la liste
+    if (*deb == NULL)
+    {
+        // on alloue de la memoire pour le client
+        courant = malloc(sizeof(Client));
+
+        // On declarre que c'est le premier element
+        *deb = courant;
+
+        // Assigne les valeurs
+        strcpy((*courant).nom, nom);
+        (*courant).nom[21] = '\0';
+        strcpy((*courant).prenom, prenom);
+        (*courant).prenom[21] = '\0';
+        (*courant).nbPersonne = nbPersonne;
+        (*courant).nbEnfant = nbEnfant;
+        strcpy((*courant).dateDebut, dateDebut);
+        strcpy((*courant).dateFin, dateFin);
+        (*courant).idEmplacement = idEmplacement;
+        (*courant).paye = payer;
+        (*courant).suivant = NULL;
+    }
+
+    else
+    {
+        // on alloue de la memoire pour le client
+        temp = malloc(sizeof(Client));
+
+        // Assigne les valeurs
+        strcpy((*temp).nom, nom);
+        (*temp).nom[21] = '\0';
+        strcpy((*temp).prenom, prenom);
+        (*temp).prenom[21] = '\0';
+        (*temp).nbPersonne = nbPersonne;
+        (*temp).nbEnfant = nbEnfant;
+        strcpy((*temp).dateDebut, dateDebut);
+        strcpy((*temp).dateFin, dateFin);
+        (*temp).idEmplacement = idEmplacement;
+        (*temp).paye = payer;
         (*temp).suivant = NULL;
 
         // Recherche ou mettre a optimisier
@@ -273,7 +339,7 @@ void lectureClient(Client **deb, int *nbC)
     int nbPersonne, idEmplacement, nbEnfant;
     char dateDebut[11], dateFin[11];
     int paye;
-    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
+    void ajoutClientL(Client **, char[], char[], int, int, char[], char[], int, int, int *);
     fdat = fopen("VanQuaquebekeVandijstadt01.dat", "r");
 
     fscanf(fdat, "%*[^\n]");
@@ -284,7 +350,7 @@ void lectureClient(Client **deb, int *nbC)
     {
         fscanf(fdat, "%*1c %20s %*1c %2d %*1c %2d %*1c %10s %*1c %10s %*1c %2d %*1c %1d", &prenom, &nbPersonne,
                &nbEnfant, &dateDebut, &dateFin, &idEmplacement, &paye);
-        ajoutClient(deb, nom, prenom, nbPersonne, nbEnfant, dateDebut, dateFin, nbC);
+        ajoutClientL(deb, nom, prenom, nbPersonne, nbEnfant, dateDebut, paye, idEmplacement,dateFin, nbC);
         // printf("%-20s %-20s %2d %2d %-10s %-10s %2d %1d\n", nom, prenom, nbPersonne,
         // nbEnfant, dateDebut, dateFin, idEmplacement, paye);
         fscanf(fdat, "%20s ", &nom);
@@ -334,11 +400,14 @@ void affichageEmp(Emplacement **deb)
     }
 }
 // Ajouter un emplacement
-void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie, int nbMaxPers, bool electricite, bool eau, bool wifi, int *nb)
+void ajouterEmplacement(Emplacement **deb, char type[], int superficie, int nbMaxPers, bool electricite, bool eau, bool wifi, int *nb)
 {
     // Declaration
     Emplacement *courant, *temp;
-    // On verifie si il exist deja un element dans la liste
+    int i;
+    //
+    i = 1;
+
     // On verifie si il exist deja un element dans la liste
     if (*deb == NULL)
     {
@@ -349,7 +418,7 @@ void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie,
         *deb = courant;
 
         // Assigne les valeurs
-        (*courant).num = num;
+        (*courant).num = 1;
         strcpy((*courant).type, type);
         (*courant).superficie = superficie;
         (*courant).nbPersonneMax = nbMaxPers;
@@ -366,7 +435,7 @@ void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie,
         temp = malloc(sizeof(Emplacement));
 
         // Assigne les valeurs
-        (*temp).num = num;
+        (*courant).num = 1;
         strcpy((*temp).type, type);
         (*temp).superficie = superficie;
         (*temp).nbPersonneMax = nbMaxPers;
@@ -385,7 +454,6 @@ void ajouterEmplacement(Emplacement **deb, int num, char type[], int superficie,
             }
             courant = (*courant).suivant;
         }
-        (*courant).suivant = temp;
     }
     *nb += 1;
 }
@@ -442,7 +510,7 @@ void lectureEmplacement(Emplacement **deb, int *nbE)
     int num, superficie, nbPersonneMax;
     char type[11];
     int electricite, eau, wifi, reserve;
-    void ajouterEmplacement(Emplacement **, int, char[], int, int, bool, bool, bool, int *);
+    void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
     fdat = fopen("VanQuaquebekeVandijstadt02.dat", "r");
     fscanf(fdat, "%*[^\n]");
     fscanf(fdat, " %*[^\n]");
@@ -451,16 +519,29 @@ void lectureEmplacement(Emplacement **deb, int *nbE)
     while (!feof(fdat))
     {
         fscanf(fdat, "%*c %8s %*c %3d %*c %2d %*c %1d %*c %1d %*c %1d %*c %1d %*c", &type, &superficie, &nbPersonneMax, &electricite, &eau, &wifi, &reserve);
-        ajouterEmplacement(deb, num, type, superficie, nbPersonneMax, electricite, eau, wifi, nbE);
+        ajouterEmplacement(deb, type, superficie, nbPersonneMax, electricite, eau, wifi, nbE);
         // printf("%2d %9s %3d %2d %1d %1d %1d %1d\n", num, type, superficie, nbPersonneMax, electricite, eau, wifi, reserve);
         fscanf(fdat, "%2d ", &num);
     }
 }
 
-// pour encoder un emplacment
-void reserver(int id, int idEmplacement, int nb)
+// Lire les clients dans le fichier de donnÃƒÂ©es
+void ecritureEmplacement(Emplacement **deb, int *nbc)
 {
-    if (id > nb && id < 0)
+    FILE *fres;
+    fres = fopen("VanQuaquebekeVandijstadt01.dat", "w");
+    Emplacement *courant = *deb;
+
+    int i;
+
+    fprintf(fres, "Num | Type     | mCarre | NbPersonMax | Elec | Eau |  Wifi | Reserve  \n");
+    fprintf(fres, "----+----------+--------+-------------+------+-----+-------+----------\n");
+
+     for (i = 0; i < *nbc; i++)
     {
+        // fprintf(fres, " %03d |  |  |  |  |  |  |  \n", i, (*courant).nom, (*courant).prenom,
+                // (*courant).nbPersonne, (*courant).nbEnfant, (*courant).dateDebut, (*courant).dateFin,
+                // (*courant).idEmplacement, (*courant).paye);
+        courant = (*courant).suivant;
     }
 }
