@@ -49,7 +49,6 @@ void main()
 
     void affichageEmp(Emplacement **);
     void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
-    void supprimerEmplacement(Emplacement **, int, int *);
     void lectureEmplacement(Emplacement **, int *);
 
     // Netoyage du terminal
@@ -61,9 +60,7 @@ void main()
 
     // Le menu
 
-/////// GERER LES ECRITURES 
-
-
+    /////// GERER LES ECRITURES
 
     // Les test !
     void test(int, Client **, Emplacement **);
@@ -83,7 +80,6 @@ void test(int test, Client **debC, Emplacement **debE)
 
     void affichageEmp(Emplacement **);
     void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
-    void supprimerEmplacement(Emplacement **, int, int *);
     void lectureEmplacement(Emplacement **, int *);
     void ecritureEmplacement(Emplacement **, int *);
     // TEST !!
@@ -111,13 +107,7 @@ void test(int test, Client **debC, Emplacement **debE)
         ajouterEmplacement(debE, "Bungalow", 100, 4, true, true, true, &nbE);
         ajouterEmplacement(debE, "Caravane", 100, 4, true, true, true, &nbE);
         affichageEmp(debE);
-        // Test suppresion
-        printf("Suppression du 1er ():\n");
-        supprimerEmplacement(debE, 1, &nbE);
-        affichageEmp(debE);
-        printf("Suppression du 2e  ():\n");
-        supprimerEmplacement(debE, 2, &nbE);
-        affichageEmp(debE);
+        
     }
     // Lecture
     else if (test == 3)
@@ -416,7 +406,7 @@ void ajouterEmplacement(Emplacement **deb, char type[], int superficie, int nbMa
     Emplacement *courant, *temp;
     int i;
     //
-    i = 1;
+    i = 0;
 
     // On verifie si il exist deja un element dans la liste
     if (*deb == NULL)
@@ -445,7 +435,7 @@ void ajouterEmplacement(Emplacement **deb, char type[], int superficie, int nbMa
         temp = malloc(sizeof(Emplacement));
 
         // Assigne les valeurs
-        (*courant).num = 1;
+        (*temp).num = (*nb)+1;
         strcpy((*temp).type, type);
         (*temp).superficie = superficie;
         (*temp).nbPersonneMax = nbMaxPers;
@@ -464,55 +454,12 @@ void ajouterEmplacement(Emplacement **deb, char type[], int superficie, int nbMa
             }
             courant = (*courant).suivant;
         }
+        (*courant).suivant = temp;
     }
     *nb += 1;
 }
 
 // supprimer un emplacement
-void supprimerEmplacement(Emplacement **deb, int place, int *n)
-{
-    // Declaration
-    Emplacement *courant, *tempo;
-    int i;
-
-    // initalisation
-    courant = *deb;
-    if (place >= 1 && place < (*n))
-    {
-        if (place == 1)
-        {
-            tempo = *deb;
-            *deb = (**deb).suivant;
-            free(tempo);
-        }
-        else
-        {
-            courant = *deb;
-            // on se d?place jusqu'? la bonne adresse
-            for (i = 1; i < place - 1; i++)
-            {
-                courant = courant->suivant;
-            }
-            if (place != *n)
-            {
-                // on fait dispara?tre un maillon de la chaine
-                tempo = courant->suivant;
-                courant->suivant = tempo->suivant;
-                free(tempo);
-            }
-            else
-            {
-                tempo = courant->suivant;
-                courant->suivant = NULL;
-                free(tempo);
-            }
-        }
-        (*n) = (*n) - 1;
-    }
-    else
-        printf("impossible place = %d\n", place);
-}
-
 // lire les remplacements
 void lectureEmplacement(Emplacement **deb, int *nbE)
 {
