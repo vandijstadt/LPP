@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <windows.h>
 
 // Table des variables
 // https://docs.google.com/spreadsheets/d/100_8y61qgKU3HSVB_qyyqeg9YfAm5iXL-RIHa2iqSQM/edit?usp=sharing
@@ -53,7 +54,11 @@ void main()
     void lectureEmplacement(Emplacement **, int *);
 
     // Netoyage du terminal
-    // system("cls");
+    system("cls");
+
+    // Permet de mettre la console en pleine ecran
+    HWND hwnd = GetForegroundWindow();
+    ShowWindow(hwnd, SW_MAXIMIZE);
 
     // Creation du premier Client
     debC = NULL;
@@ -61,14 +66,13 @@ void main()
 
     // Le menu
 
-    /////// GERER LES ECRITURES
-    //agrandir la console automatiquement
+    /////// GERER LES ECRITURES presque fini
+    /////// Verification
+    /////// 
 
     // Les test !
-    /*void test(int, Client **, Emplacement **);
-    test(3, &debC, &debE);*/
-    lectureClient(&debC, &nbC);
-    reserver(&debC, &debE);
+    void test(int, Client **, Emplacement **);
+    test(4, &debC, &debE);
 }
 void test(int test, Client **debC, Emplacement **debE)
 {
@@ -112,7 +116,6 @@ void test(int test, Client **debC, Emplacement **debE)
         ajouterEmplacement(debE, "Bungalow", 100, 4, true, true, true, &nbE);
         ajouterEmplacement(debE, "Caravane", 100, 4, true, true, true, &nbE);
         affichageEmp(debE);
-        
     }
     // Lecture
     else if (test == 3)
@@ -126,12 +129,11 @@ void test(int test, Client **debC, Emplacement **debE)
     else if (test == 4)
     {
         // Clients
-        // lectureClient(debC, &nbC);
-        // ecritureClient(debC, &nbC);
+        lectureClient(debC, &nbC);
+        ecritureClient(debC, &nbC);
         // Emplacement
-        // lectureEmplacement(debE, &nbE);
-        // ajouterEmplacement(debE,0,)
-        // ecritureEmplacement(debE, &nbE);
+        lectureEmplacement(debE, &nbE);
+        ecritureEmplacement(debE, &nbE);
     }
 }
 //
@@ -371,12 +373,12 @@ void ecritureClient(Client **deb, int *nbc)
 
     int i;
 
-    fprintf(fres, "Nom                  | Prenom               |  Nb   | NbEnfants |   Debut    | Fin        | Emplacement| Payé \n");
-    fprintf(fres, "---------------------+----------------------+-------+-----------+------------+------------+------------+------\n");
+    fprintf(fres, "Nom                  | Prenom               |  Nb   | NbEnfants |   Debut    | Fin        | Emplacement| Payé |\n");
+    fprintf(fres, "---------------------+----------------------+-------+-----------+------------+------------+------------+------|\n");
 
     for (i = 0; i < *nbc; i++)
     {
-        fprintf(fres, "%-20s | %-20s |  %2d   |    %2d     | %10s | %10s |     %2d     | %1d \n", (*courant).nom, (*courant).prenom,
+        fprintf(fres, "%-20s | %-20s |  %2d   |    %2d     | %10s | %10s |     %2d     |  %1d   |\n", (*courant).nom, (*courant).prenom,
                 (*courant).nbPersonne, (*courant).nbEnfant, (*courant).dateDebut, (*courant).dateFin,
                 (*courant).idEmplacement, (*courant).paye);
         courant = (*courant).suivant;
@@ -394,11 +396,11 @@ void affichageEmp(Emplacement **deb)
 
     courant = *deb;
 
-    printf(" Num |  Type      | mettre Carre | Nb de personne max | Elec | Eau | Wifi  | Reserve  \n");
-    printf("-----+------------+--------------+--------------------+------+-----+-------+--------- \n");
+    printf(" Num |  Type      | mettre Carre | Nb de personne max | Elec | Eau | Wifi  | Reserve | \n");
+    printf("-----+------------+--------------+--------------------+------+-----+-------+---------| \n");
     while (courant != NULL)
     {
-        printf(" %03d | %-10s |     %3d      |         %2d         |  %1d   |  %1d  |  %1d    | %1d \n",
+        printf(" %03d | %-10s |     %3d      |         %2d         |  %1d   |  %1d  |  %1d    |    %1d    | \n",
                (*courant).num, (*courant).type, (*courant).superficie, (*courant).nbPersonneMax,
                (*courant).electricite, (*courant).eau, (*courant).wifi, (*courant).reserve);
         courant = (*courant).suivant;
@@ -440,7 +442,7 @@ void ajouterEmplacement(Emplacement **deb, char type[], int superficie, int nbMa
         temp = malloc(sizeof(Emplacement));
 
         // Assigne les valeurs
-        (*temp).num = (*nb)+1;
+        (*temp).num = (*nb) + 1;
         strcpy((*temp).type, type);
         (*temp).superficie = superficie;
         (*temp).nbPersonneMax = nbMaxPers;
