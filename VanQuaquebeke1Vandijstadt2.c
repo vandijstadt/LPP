@@ -491,19 +491,19 @@ void lectureEmplacement(Emplacement **deb, int *nbE)
 void ecritureEmplacement(Emplacement **deb, int *nbc)
 {
     FILE *fres;
-    fres = fopen("VanQuaquebekeVandijstadt01.dat", "w");
+    fres = fopen("VanQuaquebekeVandijstadt02.dat", "w");
     Emplacement *courant = *deb;
 
     int i;
 
-    fprintf(fres, "Num | Type     | mCarre | NbPersonMax | Elec | Eau |  Wifi | Reserve  \n");
-    fprintf(fres, "----+----------+--------+-------------+------+-----+-------+----------\n");
+    fprintf(fres, "Num | Type     | mCarre | NbPersonMax | Elec | Eau |  Wifi | Reserve |\n");
+    fprintf(fres, "----+----------+--------+-------------+------+-----+-------+---------|\n");
 
-    for (i = 0; i < *nbc; i++)
+    while (courant != NULL)
     {
-        // fprintf(fres, " %03d |  |  |  |  |  |  |  \n", i, (*courant).nom, (*courant).prenom,
-        // (*courant).nbPersonne, (*courant).nbEnfant, (*courant).dateDebut, (*courant).dateFin,
-        // (*courant).idEmplacement, (*courant).paye);
+        fprintf(fres, "%3d | %-9s|   %3d  |      %2d     |  %1d   |  %1d  |   %1d   |    %1d    | \n",
+               (*courant).num, (*courant).type, (*courant).superficie, (*courant).nbPersonneMax,
+               (*courant).electricite, (*courant).eau, (*courant).wifi, (*courant).reserve);
         courant = (*courant).suivant;
     }
 }
