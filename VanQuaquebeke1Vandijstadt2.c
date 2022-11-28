@@ -46,6 +46,7 @@ void main()
     void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
     void supprimerClient(Client **, int, int *);
     void lectureClient(Client **, int *);
+    void reserver(Client **, Emplacement **);
 
     void affichageEmp(Emplacement **);
     void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
@@ -61,10 +62,13 @@ void main()
     // Le menu
 
     /////// GERER LES ECRITURES
+    //agrandir la console automatiquement
 
     // Les test !
-    void test(int, Client **, Emplacement **);
-    test(3, &debC, &debE);
+    /*void test(int, Client **, Emplacement **);
+    test(3, &debC, &debE);*/
+    lectureClient(debC, &nbC);
+    reserver(debC, debE);
 }
 void test(int test, Client **debC, Emplacement **debE)
 {
@@ -73,6 +77,7 @@ void test(int test, Client **debC, Emplacement **debE)
 
     // Declaration de methode
     void affichageClient(Client **);
+    void affichageClientNonReserve(Client **);
     void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
     void supprimerClient(Client **, int, int *);
     void lectureClient(Client **, int *);
@@ -501,4 +506,42 @@ void ecritureEmplacement(Emplacement **deb, int *nbc)
         // (*courant).idEmplacement, (*courant).paye);
         courant = (*courant).suivant;
     }
+}
+void affichageClientNonReserve(Client **deb)
+{
+    Client *courant;
+    int i = 1;
+
+    courant = *deb;
+
+    printf(" N  |  Nom                  | Prenom                | Nb de personne | Nb d'enfant | Date de debut | Date de fin | Id emplacement | Payer ?\n");
+    printf("----+-----------------------+-----------------------+----------------+-------------+---------------+-------------+----------------+--------\n");
+    while (courant != NULL)
+    {
+        if ((*courant).idEmplacement ==-1)
+            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | Aucun | Non \n",
+                   i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
+                   (*courant).dateDebut, (*courant).dateFin);
+        courant = (*courant).suivant;
+    }
+}
+
+void reserver(Client **debC, Emplacement ** debE)
+{
+	Emplacement *courant;
+	
+	void affichageClientNonReserve(Client **);
+	
+	int choix;
+	
+	affichageClientNonReserve(&debC);
+	
+	printf("\nPour quel client voulez vous effectuer une reservation ?\n");
+	scanf("%2d", &choix);
+	
+	printf("Voici tout les emplacements disponibles pour ce client");
+	
+	//affichage si le nombre max de personne de l'emplacement <= nbPersonne 
+    // et si l'emplacement n'est pas réservé
+        
 }
