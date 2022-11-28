@@ -67,8 +67,8 @@ void main()
     // Les test !
     /*void test(int, Client **, Emplacement **);
     test(3, &debC, &debE);*/
-    lectureClient(debC, &nbC);
-    reserver(debC, debE);
+    lectureClient(&debC, &nbC);
+    reserver(&debC, &debE);
 }
 void test(int test, Client **debC, Emplacement **debE)
 {
@@ -534,7 +534,7 @@ void reserver(Client **debC, Emplacement ** debE)
 	
 	int choix;
 	
-	affichageClientNonReserve(&debC);
+	affichageClientNonReserve(debC);
 	
 	printf("\nPour quel client voulez vous effectuer une reservation ?\n");
 	scanf("%2d", &choix);
