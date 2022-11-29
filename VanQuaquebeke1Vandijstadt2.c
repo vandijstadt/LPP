@@ -72,7 +72,7 @@ void main()
 
     // Les test !
     void test(int, Client **, Emplacement **);
-    test(4, &debC, &debE);
+    test(3, &debC, &debE);
 }
 void test(int test, Client **debC, Emplacement **debE)
 {
@@ -159,7 +159,7 @@ void affichageClient(Client **deb)
             strcpy(tmp, "Non");
         }
         if ((*courant).idEmplacement == -1)
-            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | Aucun | %3s \n",
+            printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  |     Aucun      | %3s \n",
                    i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
                    (*courant).dateDebut, (*courant).dateFin, tmp);
         else
@@ -355,7 +355,7 @@ void lectureClient(Client **deb, int *nbC)
     fscanf(fdat, "%20s ", &nom);
     while (!feof(fdat))
     {
-        fscanf(fdat, "%*1c %20s %*1c %2d %*1c %2d %*1c %10s %*1c %10s %*1c %2d %*1c %1d", &prenom, &nbPersonne,
+        fscanf(fdat, "%*1c %20s %*1c %2d %*1c %2d %*1c %10s %*1c %10s %*1c %2d %*1c %1d %*1c", &prenom, &nbPersonne,
                &nbEnfant, &dateDebut, &dateFin, &idEmplacement, &paye);
         ajoutClientL(deb, nom, prenom, nbPersonne, nbEnfant, dateDebut, dateFin, paye, idEmplacement, nbC);
         // printf("%-20s %-20s %2d %2d %-10s %-10s %2d %1d\n", nom, prenom, nbPersonne,
@@ -520,7 +520,7 @@ void affichageClientNonReserve(Client **deb)
     printf("----+-----------------------+-----------------------+----------------+-------------+---------------+-------------+----------------+--------\n");
     while (courant != NULL)
     {
-        if ((*courant).idEmplacement ==-1)
+        if ((*courant).idEmplacement == -1)
             printf("%03d | %-21s | %-21s | %2d             | %2d          |  %10s   | %10s  | Aucun | Non \n",
                    i++, (*courant).nom, (*courant).prenom, (*courant).nbPersonne, (*courant).nbEnfant,
                    (*courant).dateDebut, (*courant).dateFin);
@@ -528,22 +528,22 @@ void affichageClientNonReserve(Client **deb)
     }
 }
 
-void reserver(Client **debC, Emplacement ** debE)
+void reserver(Client **debC, Emplacement **debE)
 {
-	Emplacement *courant;
-	
-	void affichageClientNonReserve(Client **);
-	
-	int choix;
-	
-	affichageClientNonReserve(debC);
-	
-	printf("\nPour quel client voulez vous effectuer une reservation ?\n");
-	scanf("%2d", &choix);
-	
-	printf("Voici tout les emplacements disponibles pour ce client");
-	
-	//affichage si le nombre max de personne de l'emplacement <= nbPersonne 
-    // et si l'emplacement n'est pas réservé
-        
+    Emplacement *courant;
+
+    void affichageClientNonReserve(Client **);
+
+    int choix;
+
+    affichageClientNonReserve(debC);
+
+    printf("\nPour quel client voulez vous effectuer une reservation ?\n");
+    scanf("%2d", &choix);
+
+    printf("Voici tout les emplacements disponibles pour ce client");
+
+    // affichage si le nombre max de personne de l'emplacement <= nbPersonne
+    //  et si l'emplacement n'est pas réservé
 }
+
