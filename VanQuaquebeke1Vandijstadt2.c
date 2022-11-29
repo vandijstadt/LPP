@@ -469,6 +469,64 @@ void ajouterEmplacement(Emplacement **deb, char type[], int superficie, int nbMa
     *nb += 1;
 }
 
+void ajouterEmplacementL(Emplacement **deb, char type[], int superficie, int nbMaxPers, bool electricite, bool eau, bool wifi, bool reserve, int *nb)
+{
+    // Declaration
+    Emplacement *courant, *temp;
+    int i;
+    //
+    i = 0;
+
+    // On verifie si il exist deja un element dans la liste
+    if (*deb == NULL)
+    {
+        // on alloue de la memoire pour le client
+        courant = malloc(sizeof(Emplacement));
+
+        // On declarre que c'est le premier element
+        *deb = courant;
+
+        // Assigne les valeurs
+        (*courant).num = 1;
+        strcpy((*courant).type, type);
+        (*courant).superficie = superficie;
+        (*courant).nbPersonneMax = nbMaxPers;
+        (*courant).electricite = electricite;
+        (*courant).eau = eau;
+        (*courant).wifi = wifi;
+        (*courant).reserve = reserve;
+        (*courant).suivant = NULL;
+    }
+
+    else
+    {
+        // on alloue de la memoire pour le client
+        temp = malloc(sizeof(Emplacement));
+
+        // Assigne les valeurs
+        (*temp).num = (*nb) + 1;
+        strcpy((*temp).type, type);
+        (*temp).superficie = superficie;
+        (*temp).nbPersonneMax = nbMaxPers;
+        (*temp).electricite = electricite;
+        (*temp).eau = eau;
+        (*temp).wifi = wifi;
+        (*temp).reserve = reserve;
+        (*temp).suivant = NULL;
+        // Recherche ou mettre
+        courant = *deb;
+        while (0 == 0)
+        {
+            if ((*courant).suivant == NULL)
+            {
+                break;
+            }
+            courant = (*courant).suivant;
+        }
+        (*courant).suivant = temp;
+    }
+    *nb += 1;
+}
 // supprimer un emplacement
 // lire les remplacements
 void lectureEmplacement(Emplacement **deb, int *nbE)
@@ -477,7 +535,7 @@ void lectureEmplacement(Emplacement **deb, int *nbE)
     int num, superficie, nbPersonneMax;
     char type[11];
     int electricite, eau, wifi, reserve;
-    void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
+    void ajouterEmplacementL(Emplacement **, char[], int, int, bool, bool, bool, bool ,int *);
     fdat = fopen("VanQuaquebekeVandijstadt02.dat", "r");
     fscanf(fdat, "%*[^\n]");
     fscanf(fdat, " %*[^\n]");
@@ -486,7 +544,7 @@ void lectureEmplacement(Emplacement **deb, int *nbE)
     while (!feof(fdat))
     {
         fscanf(fdat, "%*c %8s %*c %3d %*c %2d %*c %1d %*c %1d %*c %1d %*c %1d %*c", &type, &superficie, &nbPersonneMax, &electricite, &eau, &wifi, &reserve);
-        ajouterEmplacement(deb, type, superficie, nbPersonneMax, electricite, eau, wifi, nbE);
+        ajouterEmplacementL(deb, type, superficie, nbPersonneMax, electricite, eau, wifi, reserve, nbE);
         // printf("%2d %9s %3d %2d %1d %1d %1d %1d\n", num, type, superficie, nbPersonneMax, electricite, eau, wifi, reserve);
         fscanf(fdat, "%2d ", &num);
     }
@@ -571,6 +629,8 @@ void reserver(Client **debC, Emplacement ** debE, int nbC, int nbE)
 	
 	ecritureClient(debC, &nbC);
 	ecritureEmplacement(debE, &nbE);
+	
+	printf("Reservation faite !");
 	
 	
 }
