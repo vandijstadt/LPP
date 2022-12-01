@@ -11,3 +11,13 @@ Num | Type     | mCarre | NbPersonMax | Elec | Eau |  Wifi | Reserve |
   9 | Tente    |    50  |       2     |  0   |  0  |   0   |    0    | 
  10 | Caravane |   110  |       4     |  1   |  1  |   0   |    0    | 
  11 | Caravane |   140  |       4     |  1   |  1  |   0   |    0    | 
+ 12 | Tente    |    80  |       3     |  1   |  0  |   0   |    0    | 
+ 13 | Bungalow |   120  |       2     |  1   |  1  |   1   |    0    | 
+ 14 | Bungalow |   140  |       4     |  1   |  1  |   1   |    0    | 
+ 15 | Caravane |    75  |       3     |  1   |  1  |   0   |    0    | 
+ 16 | Tente    |    45  |       2     |  0   |  0  |   0   |    0    | 
+ 17 | Bungalow |   140  |       5     |  1   |  1  |   1   |    0    | 
+ 18 | Caravane |   120  |       4     |  1   |  1  |   1   |    0    | 
+ 19 | Caravane |   100  |       3     |  1   |  1  |   1   |    0    | 
+ 20 | Caravane |   111  |       4     |  1   |  1  |   0   |    0    | 
+ 21 | Tente    |    85  |       2     |  0   |  1  |   0   |    0    | 
