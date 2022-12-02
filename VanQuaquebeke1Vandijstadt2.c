@@ -44,14 +44,19 @@ void main()
 
     // Declaration de methode
     void affichageClient(Client **);
+    void affichageClientNonReserve(Client **, int *);
     void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
     void supprimerClient(Client **, int, int *);
     void lectureClient(Client **, int *);
-    void reserver(Client **, Emplacement **, int, int);
-    void annuler(Client **, Emplacement **, int, int);
+    void ecritureClient(Client **, int *);
+
     void affichageEmp(Emplacement **);
     void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
     void lectureEmplacement(Emplacement **, int *);
+    void ecritureEmplacement(Emplacement **, int *);
+
+    void reserver(Client **, Emplacement **, int, int);
+    void annuler(Client **, Emplacement **, int, int);
 
     // Netoyage du terminal
     system("cls");
@@ -68,17 +73,10 @@ void main()
 
     /////// GERER LES ECRITURES presque fini
     /////// Verification
-    ///////
 
     // Les tests !
-    //    void test(int, Client **, Emplacement **);
-    //    test(3, &debC, &debE);
-    lectureClient(&debC, &nbC);
-    lectureEmplacement(&debE, &nbE);
-    // reserver(&debC, &debE, nbC, nbE);
-    annuler(&debC, &debE, nbC, nbE);
-    affichageClient(&debC);
-    affichageEmp(&debE);
+    void test(int, Client **, Emplacement **);
+    test(5, &debC, &debE);
 }
 void test(int test, Client **debC, Emplacement **debE)
 {
@@ -97,6 +95,9 @@ void test(int test, Client **debC, Emplacement **debE)
     void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
     void lectureEmplacement(Emplacement **, int *);
     void ecritureEmplacement(Emplacement **, int *);
+
+    void reserver(Client **, Emplacement **, int, int);
+    void annuler(Client **, Emplacement **, int, int);
     // TEST !!
     // Test Clients
     if (test == 1)
@@ -141,7 +142,18 @@ void test(int test, Client **debC, Emplacement **debE)
         lectureEmplacement(debE, &nbE);
         ecritureEmplacement(debE, &nbE);
     }
+    // Gestion annulation et reservation
+    else if (test == 5)
+    {
+        lectureClient(debC, &nbC);
+        lectureEmplacement(debE, &nbE);
+        reserver(debC, debE, nbC, nbE);
+        annuler(debC, debE, nbC, nbE);
+        affichageClient(debC);
+        affichageEmp(debE);
+    }
 }
+
 //
 //    Clients
 //
