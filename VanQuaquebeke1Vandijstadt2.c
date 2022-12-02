@@ -71,7 +71,6 @@ void main()
 
     // Le menu
 
-    /////// GERER LES ECRITURES presque fini
     /////// Verification
 
     // Les tests !
