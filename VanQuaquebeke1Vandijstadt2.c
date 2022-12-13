@@ -7,6 +7,19 @@
 // Table des variables
 // https://docs.google.com/spreadsheets/d/100_8y61qgKU3HSVB_qyyqeg9YfAm5iXL-RIHa2iqSQM/edit?usp=sharing
 
+// Tous les codes des symbole pour le tableaux
+#define HautDroit -69
+#define BasDroit -68
+#define BasGauche 200
+#define HautGauche 201
+#define MillieuBas 202
+#define MillieuHaut 203
+#define MillieuGauche 204
+#define MillieuDroit -71
+#define ligneVertical 205
+#define ligneHorizontal -70
+#define Croisement 206
+
 // Creation des structure
 typedef struct Client
 {
@@ -38,119 +51,178 @@ void main()
     // Declaration
     Client *debC;
     Emplacement *debE;
-
-    int nbC = 0, nbE = 0;
-    // Initalisation
+    int nbC, nbE;
+    int choixOptionPrincipal, choixOptionSecondaire;
+    char nom[21], prenom[21];
+    int nbPersonnes, nbDEnfants;
+    int i, j, m, a;
+    char dateDebut[11], dateFin[11];
+    int paye, idEmplacement;
 
     // Declaration de methode
-    void affichageClient(Client **);
+    void affichageClient(Client **, int, int);
     void affichageClientNonReserve(Client **, int *);
-    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
+    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int, int, int *);
     void supprimerClient(Client **, int, int *);
     void lectureClient(Client **, int *);
     void ecritureClient(Client **, int *);
 
-    void affichageEmp(Emplacement **);
+    void affichageEmplacement(Emplacement **, int, int);
     void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
     void lectureEmplacement(Emplacement **, int *);
     void ecritureEmplacement(Emplacement **, int *);
 
-    void reserver(Client **, Emplacement **, int, int);
+    void affichageChoix();
     void annuler(Client **, Emplacement **, int, int);
-
-    // Netoyage du terminal
-    system("cls");
 
     // Permet de mettre la console en pleine ecran
     HWND hwnd = GetForegroundWindow();
     ShowWindow(hwnd, SW_MAXIMIZE);
 
-    // Creation du premier Client
+    // Initalisation
+    nbC = 0;
+    nbE = 0;
     debC = NULL;
     debE = NULL;
+    choixOptionPrincipal = -1;
+    lectureClient(&debC, &nbC);
+    lectureEmplacement(&debE, &nbE);
 
     // Le menu
+    while (choixOptionPrincipal != 0)
+    {
 
-    /////// Verification
+        // Menu
 
-    // Les tests !
-    void test(int, Client **, Emplacement **);
-    test(5, &debC, &debE);
+        switch (choixOptionPrincipal)
+        {
+        case 1:
+            choixOptionSecondaire = 1;
+            while (choixOptionSecondaire != 0 && (30 * (choixOptionSecondaire - 1)) < nbC)
+            {
+
+                // Netoyage du terminal
+                system("cls");
+
+                affichageClient(&debC, 1 + (30 * (choixOptionSecondaire - 1)), 30 * (choixOptionSecondaire));
+                printf("-------------------------------------------------------------------------------------------------------------------------------------------\n");
+                printf("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPages : ");
+                scanf("%2d", &choixOptionSecondaire);
+            }
+            printf("\n");
+            break;
+        case 2:
+            choixOptionSecondaire = 1;
+            while (choixOptionSecondaire != 0 && (30 * (choixOptionSecondaire - 1)) < nbE)
+            {
+
+                // Netoyage du terminal
+                system("cls");
+
+                affichageEmplacement(&debE, 1 + (30 * (choixOptionSecondaire - 1)), 30 * (choixOptionSecondaire));
+                printf("--------------------------------------------------------------------------------------\n");
+                printf("\t\t\t\t\t\t\t\t\t    Pages : ");
+                scanf("%2d", &choixOptionSecondaire);
+            }
+            printf("\n");
+            break;
+        case 3:
+            printf("Ajouts d'un client \n");
+            printf("-------------------\n");
+            printf("Noms du client : ");
+            scanf("%20s", &nom);
+            printf("Prenoms du client : ");
+            scanf("%20s", &prenom);
+            printf("\nNombre de personne(enfants non-compris) : ");
+            scanf("%2d", &nbPersonnes);
+            printf("\nNombre d'enfants : ");
+            scanf("%2d", &nbDEnfants);
+
+            printf("\nDate de debut ");
+            printf("\n--------------");
+            printf("Jour : ");
+            scanf("%2d", &j);
+            printf("\nMois : ");
+            scanf("%2d", &m);
+            printf("\nAnnee : ");
+            scanf("%4d", &a);
+            strcpy(dateDebut, j + '/' + m + '/' + a);
+
+            printf("\nDate de fin ");
+            printf("\n--------------");
+            printf("Jour : ");
+            scanf("%2d", &j);
+            printf("\nMois : ");
+            scanf("%2d", &m);
+            printf("\nAnnee : ");
+            scanf("%4d", &a);
+            strcpy(dateFin, j + '/' + m + '/' + a);
+
+            printf("Es-ce payer ?");
+            paye = 0;
+            printf("Il a reserver quelle emplacement");
+            idEmplacement = -1;
+            ajoutClient(&debC, nom, prenom, nbPersonnes, nbDEnfants, dateDebut, dateFin, paye, idEmplacement, nbC);
+            printf("\n");
+            break;
+        case 4:
+            printf("Ajouts d'emplacement \n");
+            printf("\n");
+            break;
+        case 5:
+            printf("Enregistrer ! \n");
+            printf("\n");
+            break;
+        case -1:
+            break;
+        default:
+            printf("Mauvais choix veuillez recommencer\n\n");
+        }
+        // Affichage des choix
+        affichageChoix();
+        // Selection du  choix
+        printf("\b\r");
+        scanf("%2d", &choixOptionPrincipal);
+
+        // Netoyage du terminal
+        system("cls");
+    }
+
+    /////////////////////////////// Verification
 }
-void test(int test, Client **debC, Emplacement **debE)
+
+void affichageChoix()
 {
-    // Initalisation
-    int nbC = 0, nbE = 0;
+    int i;
+    printf("%1c", HautGauche);
+    for (i = 0; i < 32; i++)
+        printf("%1c", ligneVertical);
+    printf("%1c\n", HautDroit);
 
-    // Declaration de methode
-    void affichageClient(Client **);
-    void affichageClientNonReserve(Client **, int *);
-    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int *);
-    void supprimerClient(Client **, int, int *);
-    void lectureClient(Client **, int *);
-    void ecritureClient(Client **, int *);
+    printf("%1c Menu                           %1c\n", ligneHorizontal, ligneHorizontal);
 
-    void affichageEmp(Emplacement **);
-    void ajouterEmplacement(Emplacement **, char[], int, int, bool, bool, bool, int *);
-    void lectureEmplacement(Emplacement **, int *);
-    void ecritureEmplacement(Emplacement **, int *);
+    printf("%1c", MillieuGauche);
+    for (i = 0; i < 32; i++)
+        printf("%1c", ligneVertical);
+    printf("%1c\n", MillieuDroit);
 
-    void reserver(Client **, Emplacement **, int, int);
-    void annuler(Client **, Emplacement **, int, int);
-    // TEST !!
-    // Test Clients
-    if (test == 1)
-    {
-        // Test d'ajouts
-        ajoutClient(debC, "Van Quaquebeke", "Nathan", 2, 0, "24/11/2022", "27/11/2022", &nbC);
-        ajoutClient(debC, "Vandijstadt", "Nicolas", 4, 0, "25/11/2022", "26/11/2022", &nbC);
-        ajoutClient(debC, "xxxxxxxxxxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxxxxxxxxxx", 0, 0, "00/00/0000", "00/00/0000", &nbC);
-        affichageClient(debC);
-        // Test suppression
-        printf("Suppression du 1er (Van Quaquebeke):\n");
-        supprimerClient(debC, 1, &nbC);
-        affichageClient(debC);
-        printf("Suppression du 2e (XXXXXX) :\n");
-        supprimerClient(debC, 2, &nbC);
-        affichageClient(debC);
-    }
-    // Test emplacements
-    else if (test == 2)
-    {
-        // Test ajouts
-        ajouterEmplacement(debE, "Tente", 100, 4, true, true, true, &nbE);
-        ajouterEmplacement(debE, "Bungalow", 100, 4, true, true, true, &nbE);
-        ajouterEmplacement(debE, "Caravane", 100, 4, true, true, true, &nbE);
-        affichageEmp(debE);
-    }
-    // Lecture
-    else if (test == 3)
-    {
-        lectureClient(debC, &nbC);
-        affichageClient(debC);
-        lectureEmplacement(debE, &nbE);
-        affichageEmp(debE);
-    }
-    // Ecriture
-    else if (test == 4)
-    {
-        // Clients
-        lectureClient(debC, &nbC);
-        ecritureClient(debC, &nbC);
-        // Emplacement
-        lectureEmplacement(debE, &nbE);
-        ecritureEmplacement(debE, &nbE);
-    }
-    // Gestion annulation et reservation
-    else if (test == 5)
-    {
-        lectureClient(debC, &nbC);
-        lectureEmplacement(debE, &nbE);
-        reserver(debC, debE, nbC, nbE);
-        annuler(debC, debE, nbC, nbE);
-        affichageClient(debC);
-        affichageEmp(debE);
-    }
+    printf("%1c 01 Affichage clients           %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 02 Affichage emplacements      %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 03 reserver                    %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 04 Ajouts d'emplacment         %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 05 Enregistrer                 %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 00 Quitter                     %1c\n", ligneHorizontal, ligneHorizontal);
+   
+    printf("%1c", MillieuGauche);
+    for (i = 0; i < 32; i++)
+        printf("%1c", ligneVertical);
+    printf("%1c\n", MillieuDroit);
+
+    printf("%1c               Votre choix :    %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c", BasGauche);
+    for (i = 0; i < 32; i++)
+        printf("%1c", ligneVertical);
+    printf("%1c\n", BasDroit);
 }
 
 //
@@ -158,16 +230,20 @@ void test(int test, Client **debC, Emplacement **debE)
 //
 
 // Affichage des Client
-void affichageClient(Client **deb)
+void affichageClient(Client **deb, int min, int max)
 {
     Client *courant;
-    int i = 1;
+    int i;
 
     courant = *deb;
 
+    for (i = 1; i < min; i++)
+        courant = (*courant).suivant;
+
     printf(" N  |  Nom                  | Prenom                | Nb de personne | Nb d'enfant | Date de debut | Date de fin | Id emplacement | Payer ?\n");
     printf("----+-----------------------+-----------------------+----------------+-------------+---------------+-------------+----------------+--------\n");
-    while (courant != NULL)
+
+    while (courant != NULL && i <= max)
     {
         char tmp[4];
         strcpy(tmp, "Oui");
@@ -187,70 +263,9 @@ void affichageClient(Client **deb)
     }
 }
 
-// Ajouts d'un client
+// Ajouts clients
 void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant,
-                 char dateDebut[], char dateFin[], int *nb)
-{
-    // Declaration
-    Client *courant, *temp;
-    // On verifie si il exist deja un element dans la liste
-    if (*deb == NULL)
-    {
-        // on alloue de la memoire pour le client
-        courant = malloc(sizeof(Client));
-
-        // On declarre que c'est le premier element
-        *deb = courant;
-
-        // Assigne les valeurs
-        strcpy((*courant).nom, nom);
-        (*courant).nom[21] = '\0';
-        strcpy((*courant).prenom, prenom);
-        (*courant).prenom[21] = '\0';
-        (*courant).nbPersonne = nbPersonne;
-        (*courant).nbEnfant = nbEnfant;
-        strcpy((*courant).dateDebut, dateDebut);
-        strcpy((*courant).dateFin, dateFin);
-        (*courant).idEmplacement = -1;
-        (*courant).paye = 0;
-        (*courant).suivant = NULL;
-    }
-
-    else
-    {
-        // on alloue de la memoire pour le client
-        temp = malloc(sizeof(Client));
-
-        // Assigne les valeurs
-        strcpy((*temp).nom, nom);
-        (*temp).nom[21] = '\0';
-        strcpy((*temp).prenom, prenom);
-        (*temp).prenom[21] = '\0';
-        (*temp).nbPersonne = nbPersonne;
-        (*temp).nbEnfant = nbEnfant;
-        strcpy((*temp).dateDebut, dateDebut);
-        strcpy((*temp).dateFin, dateFin);
-        (*temp).idEmplacement = -1;
-        (*temp).paye = 0;
-        (*temp).suivant = NULL;
-
-        // Recherche ou mettre a optimisier
-        courant = *deb;
-        while (0 == 0)
-        {
-            if ((*courant).suivant == NULL)
-            {
-                break;
-            }
-            courant = (*courant).suivant;
-        }
-        (*courant).suivant = temp;
-    }
-    *nb += 1;
-}
-// Ajouts clients lors de la lecture
-void ajoutClientL(Client **deb, char nom[], char prenom[], int nbPersonne, int nbEnfant,
-                  char dateDebut[], char dateFin[], int payer, int idEmplacement, int *nb)
+                 char dateDebut[], char dateFin[], int payer, int idEmplacement, int *nb)
 {
     // Declaration
     Client *courant, *temp;
@@ -363,7 +378,7 @@ void lectureClient(Client **deb, int *nbC)
     int nbPersonne, idEmplacement, nbEnfant;
     char dateDebut[11], dateFin[11];
     int paye;
-    void ajoutClientL(Client **, char[], char[], int, int, char[], char[], int, int, int *);
+    void ajoutClient(Client **, char[], char[], int, int, char[], char[], int, int, int *);
     fdat = fopen("VanQuaquebekeVandijstadt01.dat", "r");
 
     fscanf(fdat, "%*[^\n]");
@@ -374,7 +389,7 @@ void lectureClient(Client **deb, int *nbC)
     {
         fscanf(fdat, "%*1c %20s %*1c %2d %*1c %2d %*1c %10s %*1c %10s %*1c %2d %*1c %1d %*1c", &prenom, &nbPersonne,
                &nbEnfant, &dateDebut, &dateFin, &idEmplacement, &paye);
-        ajoutClientL(deb, nom, prenom, nbPersonne, nbEnfant, dateDebut, dateFin, paye, idEmplacement, nbC);
+        ajoutClient(deb, nom, prenom, nbPersonne, nbEnfant, dateDebut, dateFin, paye, idEmplacement, nbC);
         // printf("%-20s %-20s %2d %2d %-10s %-10s %2d %1d\n", nom, prenom, nbPersonne,
         // nbEnfant, dateDebut, dateFin, idEmplacement, paye);
         fscanf(fdat, "%20s ", &nom);
@@ -407,19 +422,23 @@ void ecritureClient(Client **deb, int *nbc)
 //
 
 // Affichage emplacement
-void affichageEmp(Emplacement **deb)
+void affichageEmplacement(Emplacement **deb, int min, int max)
 {
     Emplacement *courant;
-
+    int i = min;
     courant = *deb;
+
+    for (i = 1; i < min; i++)
+        courant = (*courant).suivant;
 
     printf(" Num |  Type      | mettre Carre | Nb de personne max | Elec | Eau | Wifi  | Reserve | \n");
     printf("-----+------------+--------------+--------------------+------+-----+-------+---------| \n");
-    while (courant != NULL)
+    while (courant != NULL && i <= max)
     {
         printf(" %03d | %-10s |     %3d      |         %2d         |  %1d   |  %1d  |  %1d    |    %1d    | \n",
                (*courant).num, (*courant).type, (*courant).superficie, (*courant).nbPersonneMax,
                (*courant).electricite, (*courant).eau, (*courant).wifi, (*courant).reserve);
+        i++;
         courant = (*courant).suivant;
     }
 }
