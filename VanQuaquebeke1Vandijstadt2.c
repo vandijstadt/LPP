@@ -120,7 +120,7 @@ void main()
                 system("cls");
 
                 affichageEmplacement(&debE, 1 + (30 * (choixOptionSecondaire - 1)), 30 * (choixOptionSecondaire));
-                printf("--------------------------------------------------------------------------------------\n");
+                printf("----------------------------------------------------------------------------------------------\n");
                 printf("\t\t\t\t\t\t\t\t\t    Pages : ");
                 scanf("%2d", &choixOptionSecondaire);
             }
@@ -308,7 +308,7 @@ void ajoutClient(Client **deb, char nom[], char prenom[], int nbPersonne, int nb
         (*temp).nbPersonne = nbPersonne;
         (*temp).nbEnfant = nbEnfant;
         strcpy((*temp).dateDebut, dateDebut);
-        (*courant).nbJour= nbJour;
+        (*temp).nbJour= nbJour;
         (*temp).idEmplacement = idEmplacement;
         (*temp).paye = payer;
         (*temp).suivant = NULL;
@@ -389,7 +389,7 @@ void lectureClient(Client **deb, int *nbC)
     fscanf(fdat, "%20s ", &nom);
     while (!feof(fdat))
     {
-        fscanf(fdat, "%*1c %20s %*1c %2d %*1c %2d %*1c %10s %*1c %2d %*1c %2d %*1c %1d %*1c", &prenom, &nbPersonne,
+        fscanf(fdat, "%*c %20s %*c %2d %*c %2d %*c %10s %*c %2d %*c %2d %*c %1d %*c", &prenom, &nbPersonne,
                &nbEnfant, &dateDebut, &nbJour, &idEmplacement, &paye);
         ajoutClient(deb, nom, prenom, nbPersonne, nbEnfant, dateDebut, nbJour, paye, idEmplacement, nbC);
         fscanf(fdat, "%20s ", &nom);
@@ -457,11 +457,11 @@ void ecritureClient(Client **deb, int *nbc)
     int i;
 
     fprintf(fres, "Nom                  | Prenom               |  Nb   | NbEnfants |   Debut    | Nb Jour    | Emplacement| Payer |\n");
-    fprintf(fres, "---------------------+----------------------+-------+-----------+------------+------------+------------+------|\n");
+    fprintf(fres, "---------------------+----------------------+-------+-----------+------------+------------+------------+-------|\n");
 
-    for (i = 0; i < *nbc; i++)
+    while (courant != NULL)
     {
-        fprintf(fres, "%-20s | %-20s |  %2d   |    %2d     | %10s |      %2d      |     %2d     |  %1d   |\n", (*courant).nom, (*courant).prenom,
+        fprintf(fres, "%-20s | %-20s |  %2d   |    %2d     | %10s |     %2d     |     %2d     |   %1d   |\n", (*courant).nom, (*courant).prenom,
                 (*courant).nbPersonne, (*courant).nbEnfant, (*courant).dateDebut, (*courant).nbJour,
                 (*courant).idEmplacement, (*courant).paye);
         courant = (*courant).suivant;
@@ -472,7 +472,6 @@ void ecritureClient(Client **deb, int *nbc)
 // Emplacement
 //
 
-// Affichage emplacement
 // Affichage emplacement
 void affichageEmplacement(Emplacement **deb, int min, int max)
 {
