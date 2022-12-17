@@ -62,6 +62,14 @@ void main()
     char j[2], m[2], a[4];
     char dateDebut[11], dateFin[11];
     int nbJour, paye, idEmplacement;
+    
+    
+    //pour emplacement 
+    
+    char type[11];
+    int superficie, nbPersonneMax, choixType;
+    bool electricite, eau,wifi, reserve;
+    float prix;
 
     // Declaration de methode
     void affichageClient(Client **, int, int);
@@ -127,13 +135,13 @@ void main()
             printf("\n");
             break;
         case 3:
-            printf("Ajouts d'un client \n");
+            printf("Ajout d'un client \n");
             printf("-------------------\n");
-            printf("Noms du client : ");
+            printf("Nom du client : ");
             scanf("%20s", &nom);
-            printf("Prenoms du client : ");
+            printf("Prenom du client : ");
             scanf("%20s", &prenom);
-            printf("Nombre de personne(enfants non-compris) : ");
+            printf("Nombre de personnes (enfants compris) : ");
             scanf("%2d", &nbPersonnes);
             printf("Nombre d'enfants : ");
             scanf("%2d", &nbDEnfants);
@@ -148,29 +156,74 @@ void main()
     		scanf("%4s", &a);
 		    strcpy(dateDebut, strcat(strcat(strcat(strcat(j, "/"),m),"/"),a));
 		    
-    		printf("Nombre de jour \n");
+    		printf("Nombre de jour : ");
     		scanf("%2d", &nbJour);
-            printf("Es-ce payer (O = oui, N = non) : ");
+            printf("Le client a t'il deja paye (O = oui, N = non) : ");
             scanf("%s", &paye);
             if (toupper(paye) == 'O')
-                paye = 0;
-            else if (toupper(paye) == 'N')
                 paye = 1;
-            printf("Il a reserver quelle emplacement : ");
-            scanf("%1d", &idEmplacement);
+            else if (toupper(paye) == 'N')
+                paye = 0;
+            printf("Quel emplacement a t'il reserve : ");
+            scanf("%2d", &idEmplacement);
 
             ajoutClient(&debC, nom, prenom, nbPersonnes, nbDEnfants, dateDebut, nbJour, paye, idEmplacement, &nbC);
-            ecritureClient(&debC, &nbC);
-            ecritureEmplacement(&debE, &nbE);
             printf("\n");
             break;
         case 4 :
-            printf("anuller \n");
-            printf("En cours de creation \n");
-            annuler(&debC, &debE,&nbC,&nbE);
-        	break;
-		case 5:
             printf("Ajouts d'emplacement \n");
+            printf("-------------------- \n");
+            printf("Type de l'emplacement :\n");
+            printf(" 1 : Tente \n 2 : Bungalow \n 3 : Caravane \n");
+            printf("Votre choix : ");
+            scanf("%1d", &choixType);
+            switch(choixType){
+            	case 1:
+            		strcpy(type, "Tente");
+            		break;
+            	case 2:
+            		strcpy(type, "Bungalow");
+            		break;
+            	case 3:
+            		strcpy(type, "Caravane");
+            		break;
+				default:
+            		printf("Mauvais choix veuillez recommencer");		
+			}
+			printf("Nombre de metre carre de l'emplacement : ");
+			scanf("%3d", &superficie);
+			
+			printf("Nombre de personne maximum dans l'emplacement : ");
+			scanf("%2d", &nbPersonneMax);
+			
+			printf("Y'a-il un acces a l'electricite ? :  (O = oui, N = non)");
+            scanf("%s", &electricite);
+            if (toupper(electricite) == 'O')
+                electricite = 1;
+            else if (toupper(electricite) == 'N')
+                electricite = 0;
+                
+            printf("Y'a-il un acces a l'eau ? :  (O = oui, N = non)");
+            scanf("%s", &eau);
+            if (toupper(eau) == 'O')
+                eau = 1;
+            else if (toupper(eau) == 'N')
+                eau = 0;
+            
+			printf("Y'a-il un acces au wifi ? :  (O = oui, N = non)");
+            scanf("%s", &wifi);
+            if (toupper(wifi) == 'O')
+                wifi = 1;
+            else if (toupper(wifi) == 'N')
+                wifi = 0; 
+			
+			printf("Quel prix coute l'emplacement pour une nuit : (format : (X)XX.XX)");
+			scanf("%6f", &prix);
+			ajouterEmplacement(&debE, type, superficie, nbPersonneMax, electricite, eau, wifi, prix, &nbE);
+        	break;
+        	
+		case 5:
+            printf("Ajouts d'un membre du personnel \n");
             printf("En cours de creation \n");
             printf("\n");
             break;
@@ -185,10 +238,14 @@ void main()
         printf("                Votre choix : ");
         scanf("%2d", &choixOptionPrincipal);
 
-        // Netoyage du terminal
+        
+		// Netoyage du terminal
         system("cls");
     }
 
+        ecritureClient(&debC, &nbC);
+        ecritureEmplacement(&debE, &nbE);
+        
     /////////////////////////////// Verification a faire   ///////////////////////////////
     /////////////////////////////// Personnel a faire      ///////////////////////////////
 }
@@ -208,11 +265,12 @@ void affichageChoix() // Permet d'afficher tous les choix que peut faire l'utili
         printf("%1c", ligneVertical);
     printf("%1c\n", MillieuDroit);
 
-    printf("%1c 01 Affichage clients           %1c\n", ligneHorizontal, ligneHorizontal);
-    printf("%1c 02 Affichage emplacements      %1c\n", ligneHorizontal, ligneHorizontal);
-    printf("%1c 03 Reserver                    %1c\n", ligneHorizontal, ligneHorizontal);
-    printf("%1c 04 Annuler                     %1c\n", ligneHorizontal, ligneHorizontal);
-    printf("%1c 05 Ajouts d'emplacment         %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 01 Affichage des clients       %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 02 Affichage des emplacements  %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 03 Ajout d'un client           %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 04 Ajout d'un emplacement      %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 05 Ajout d'un  personnel       %1c\n", ligneHorizontal, ligneHorizontal);
+    printf("%1c 06 Calcul prix reservation     %1c\n", ligneHorizontal, ligneHorizontal);
     printf("%1c 00 Quitter                     %1c\n", ligneHorizontal, ligneHorizontal);
 
     // printf("%1c", MillieuGauche);
@@ -389,7 +447,7 @@ void lectureClient(Client **deb, int *nbC)
     fscanf(fdat, "%20s ", &nom);
     while (!feof(fdat))
     {
-        fscanf(fdat, "%*c %20s %*c %2d %*c %2d %*c %10s %*c %2d %*c %2d %*c %1d %*c", &prenom, &nbPersonne,
+        fscanf(fdat, "%*1c %20s %*1c %2d %*1c %2d %*1c %10s %*1c %2d %*1c %2d %*1c %1d %*1c", &prenom, &nbPersonne,
                &nbEnfant, &dateDebut, &nbJour, &idEmplacement, &paye);
         ajoutClient(deb, nom, prenom, nbPersonne, nbEnfant, dateDebut, nbJour, paye, idEmplacement, nbC);
         fscanf(fdat, "%20s ", &nom);
@@ -456,12 +514,12 @@ void ecritureClient(Client **deb, int *nbc)
 
     int i;
 
-    fprintf(fres, "Nom                  | Prenom               |  Nb   | NbEnfants |   Debut    | Nb Jour    | Emplacement| Payer |\n");
-    fprintf(fres, "---------------------+----------------------+-------+-----------+------------+------------+------------+-------|\n");
+    fprintf(fres, "Nom                  | Prenom               |  Nb   | NbEnfants |   Debut    | Nb Jour  | Emplacement| Payer |\n");
+    fprintf(fres, "---------------------+----------------------+-------+-----------+------------+----------+------------+------|\n");
 
-    while (courant != NULL)
+    for (i = 0; i < *nbc; i++)
     {
-        fprintf(fres, "%-20s | %-20s |  %2d   |    %2d     | %10s |     %2d     |     %2d     |   %1d   |\n", (*courant).nom, (*courant).prenom,
+        fprintf(fres, "%-20s | %-20s |  %2d   |    %2d     | %10s |      %2d      |     %2d     |  %1d   |\n", (*courant).nom, (*courant).prenom,
                 (*courant).nbPersonne, (*courant).nbEnfant, (*courant).dateDebut, (*courant).nbJour,
                 (*courant).idEmplacement, (*courant).paye);
         courant = (*courant).suivant;
@@ -472,6 +530,7 @@ void ecritureClient(Client **deb, int *nbc)
 // Emplacement
 //
 
+// Affichage emplacement
 // Affichage emplacement
 void affichageEmplacement(Emplacement **deb, int min, int max)
 {
@@ -539,7 +598,7 @@ void ajouterEmplacement(Emplacement **deb, char type[], int superficie, int nbMa
         (*temp).eau = eau;
         (*temp).wifi = wifi;
         (*temp).reserve = false;
-        (*courant).prix = prix;
+        (*temp).prix = prix;
         (*temp).suivant = NULL;
         // Recherche ou mettre
         courant = *deb;
@@ -658,7 +717,6 @@ void ecritureEmplacement(Emplacement **deb, int *nbc)
     }
 }
 
-
 void annuler(Client **debC, Emplacement **debE, int *nbC, int *nbE)
 {
 
@@ -688,14 +746,13 @@ void annuler(Client **debC, Emplacement **debE, int *nbC, int *nbE)
 	supprimerClient(debC, choixC, nbC);
 	
 	// Supprimer emplacement
-	// A modifier
 	for(i =1;i<=numEmplacement;i++)
         courantE = (*courantE).suivant;
     (*courantE).reserve=0;
 
     printf("Reservation annuler !");
 }
-/*
+
 void afficheEmplacementPourClient(int choix, Client **debC, Emplacement **debE, int *e)
 {
 
@@ -726,6 +783,8 @@ void afficheEmplacementPourClient(int choix, Client **debC, Emplacement **debE, 
         courantE = (*courantE).suivant;
     }
 }
+
+
 /*
 void modificationDonnees(Client **debC, Emplacement **debE, int choixC, int choixE)
 {
